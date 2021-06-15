@@ -1,0 +1,90 @@
+import { Injectable } from '@angular/core';
+import { of } from 'rxjs';
+
+// The following is for testing only
+// import { ObservableStore } from '../../../../../../src/observable-store';
+import { ObservableStore } from '@codewithdan/observable-store';
+import { Customer } from './customer';
+import { SorterService } from '../utilities/sorter.service';
+
+export interface StoreState {
+  customer: Customer;
+}
+
+@Injectable({
+  providedIn: 'root'
+})
+export class CustomersService extends ObservableStore<StoreState> {
+  sorterService: SorterService;
+
+  constructor(sorterService: SorterService) {
+    super({ trackStateHistory: true, logStateChanges: true });
+
+    const initialState = {
+      customer: null
+
+    };
+    this.setState(initialState, CustomersStoreActions.InitializeState);
+    this.sorterService = sorterService;
+  }
+
+  get() {
+    const customers = this.getState().customer;
+    if (customers) {
+        return of(customers);
+    } else {
+        // call server and get data
+        // assume async call here that returns observable
+        return of(null);
+    }
+  }
+
+  add(customer: Customer) {
+    // insert via server API
+    // if successful update store state
+    const state = this.getState();
+    const  h = new Customer();
+    h.id = customer.id;
+    h.state = customer.state;
+    h.res = customer.res;
+    this.setState({customer: customer}, CustomersStoreActions.AddCustomer);
+
+  }
+
+  remove(id: number) {
+    const state = this.getState();
+    if (state.customer.id === id) {
+    state.customer.id = 1;
+    state.customer.state = '4';
+    }
+    this.setState({ customer: state.customer }, CustomersStoreActions.RemoveCustomer);
+  }
+
+  // sort(property: string = 'id') {
+  //   // let state = this.getState();
+  //   // const sortedState = this.sorterService.sort(state.customers, property);
+  //   // this.setState({ customers: sortedState }, CustomersStoreActions.SortCustomers);
+  //
+  //   // Can also pass a function to setState to grab the previous state
+  //   // and then update the current state
+  //   this.setState(prevState => {
+  //     const customers = this.sorterService.sort(prevState.customers, property);
+  //     return { customers };
+  //   }, CustomersStoreActions.SortCustomers);
+  //
+  //   console.log('State History:', this.stateHistory);
+  // }
+
+}
+
+export interface StoreState {
+  customer: Customer;
+}
+
+export enum CustomersStoreActions {
+  InitializeState = 'INITIALIZE_STATE',
+  AddCustomer = 'ADD_CUSTOMER',
+  RemoveCustomer = 'REMOVE_CUSTOMER',
+  GetCustomers = 'GET_CUSTOMERS',
+  SortCustomers = 'SORT_CUSTOMERS'
+}

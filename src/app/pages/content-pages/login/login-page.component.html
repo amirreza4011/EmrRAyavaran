@@ -1,0 +1,162 @@
+<!--Login Page Starts-->
+<section id="login">
+  <div class="container-fluid">
+    <div class="row full-height-vh m-0">
+      <div class="col-12 d-flex align-items-center justify-content-center">
+        <div class="card" >
+          <div class="card-content" style="height: auto;border-bottom: 2px solid;padding: 0">
+
+
+                <div class="col-lg-12" style="display: flex;padding: 10px;background-color: #00417a;color: white">
+
+                  <div class="col-6">
+                    <label>
+                      پورتال پزشک
+                    </label>
+                    <input type="radio" [checked]="type=='d_login'"   name="a"      (click)="showPage('d_login')"  [ngClass]="currentPage === 'd_login' ? 'primary font-medium-2 font-weight-600 active' : 'primary font-medium-2 font-weight-600'"/>
+
+                  </div>
+                  |
+                  <div class="col-lg-6" >
+
+
+                    <label>
+                      پورتال بیمار
+
+                    </label>
+                    <input type="radio" [checked]="type=='p_login'"   (click)="showPage('p_login')" [ngClass]="currentPage === 'p_login' ? 'primary font-medium-2 font-weight-600 active' : 'primary font-medium-2 font-weight-600'" name="a"/>
+                  </div>
+              
+                </div>
+            
+          </div>
+          <div class="card-content">
+            <div class="card-body login-img">
+              <div class="row m-0">
+             
+                <section id="p_login" style="background-color: white!important;box-shadow:0px 3px 17px 7px #56c6d2" *ngIf="currentPage=='p_login'">
+                  <app-logo-item></app-logo-item>
+                  <div class="container  bg-white">
+                    <div class="col-lg-12 col-md-12 px-4 pt-3">
+                      <p class="card-text mb-3">
+                        پرونده الکترونیک بیمار                      </p>
+                      <div class="alert alert-danger" role="alert" *ngIf="errorMassage">
+                        {{errorMassage}}
+                      </div>
+                      <div class="alert alert-danger" role="alert" *ngIf="Result">
+                   {{Result}}
+                      </div>
+                      <div *ngIf="loading" style="text-align: center">
+                        <img src="assets/img/flags/760.gif">
+                      </div>
+                      <form action="" (ngSubmit)="onSubmit($event)">
+                        <input
+                                type="text"
+                                class="form-control mb-3"
+                                placeholder="کد بیمار  "
+                                 name="code"
+                                required="required"
+
+                        />
+                        <input
+                                type="text"
+                                class="form-control mb-3"
+                                placeholder="شناسه مراجعه"
+                                name="shenase"
+                                required="required"
+
+
+                        />
+
+                        <div class="fg-actions d-flex justify-content-between">
+                          <div class="recover-pass">
+                            <button class="btn btn-primary">
+                            ورود بیمار
+                            </button>
+                          </div>
+                        </div>
+                      </form>
+
+                    </div>
+                    <div class="col-12 " style="text-align: left;margin: 0!important;padding: 0!important;font-size: 12px">
+                      <small>copyright 2020 |V 1.0 13991218 </small>
+                    </div>
+                  </div>
+
+                </section>
+                <section id="d_login"  *ngIf="currentPage=='d_login'" style="background-color: white!important;">
+                  <app-logo-item  [show]="false"></app-logo-item>
+
+                  <div class="container" style="background-color: white">
+                    <div class="col-lg-12 col-md-12  px-4 pt-3" >
+                      <p class="card-text mb-3">
+                        پرونده الکترونیک بیمار
+                      </p>
+                      <div class="alert alert-danger" role="alert" *ngIf="errorMassage">
+                        {{errorMassage}}
+                      </div>
+                      <div *ngIf="loading" style="text-align: center">
+                        <img src="assets/img/flags/760.gif">
+                      </div>
+                      <form action="" (ngSubmit)="d_login($event)">
+                        <input
+                                type="text"
+                                class="form-control mb-3"
+                                placeholder="نام کاربری"
+                                name="username"
+                                required="required"
+
+                        />
+                        <input
+                                type="password"
+                                class="form-control mb-3"
+                                placeholder="رمز عبور"
+                                name="password"
+                                required="required"
+
+                        />
+                        <div class="d-flex justify-content-between ">
+                          <div class="remember-me">
+                            <div
+                                    class="custom-control custom-checkbox custom-control-inline "
+                            >
+                              <input
+                                      type="checkbox"
+                                      id="customCheckboxInline1"
+                                      name="customCheckboxInline1"
+                                      class="custom-control-input"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                        <div class="fg-actions d-flex justify-content-between">
+                          <div class="recover-pass">
+                            <button class="btn btn-primary">
+                              ورود پزشک
+                            </button>
+                          </div>
+                        </div>
+                      </form>
+
+
+                    </div>
+                    <div class="col-12 " style="text-align: left;margin: 0!important;padding: 0!important;font-size: 12px">
+                      <small>V 2.0 14000215 </small>
+                    </div>
+
+                  </div>
+                </section>
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+<!--Login Page Ends-->
+

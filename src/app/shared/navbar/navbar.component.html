@@ -1,0 +1,109 @@
+<!--
+ Navbar (Header) Starts -->
+<style>
+    .hh{
+
+        color: #efd20a;
+        font-weight: 800;
+        font-size: 21px;
+    }
+</style>
+<nav class="header-navbar navbar navbar-expand-lg navbar-light bg-faded col-sm-12" style="background-color:#00417a;color: white;height: 40px">
+    <div class="container-fluid">
+        <div *ngIf="customers" class="navbar-header col-9 mt-2 " style="display: flex;background-color: transparent">
+            <button type="button" class="navbar-toggle d-lg-none float-left" data-toggle="collapse"
+                (click)="toggleSidebar()" style="color: white;margin: -10px !important;">
+                <span class="sr-only">تغییر ناوبری </span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <span class="d-lg-none navbar-right navbar-collapse-toggle" style="margin: 2px ">
+                <a class="open-navbar-container" (click)="isCollapsed = !isCollapsed"
+                    [attr.aria-expanded]="!isCollapsed" aria-controls="navbarSupportedContent">
+                    <i class="ft-more-vertical"></i>
+                </a>
+            </span>
+            <div *ngIf="customerobj" class="open-navbar-container" style="margin-top: -3px;color: white"  >
+                <i class="fa ft-check">
+
+                </i>
+                ویزیت شد
+                <input (click)="setvisit()" style="width: 20px;height:20px " type="checkbox">
+            </div>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <div *ngIf="customerobj" class="open-navbar-container" style="margin-top: -3px;color: white"  >
+             |
+            </div>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <h5>  تاریخ امروز: {{ today  }}</h5>
+            &nbsp;&nbsp;
+            <h5 style="margin-right:5% " *ngIf="customerobj"> مشخصات بیمار:</h5>
+            <h5 class="hh" *ngIf="customerobj">    {{customerobj['patient_FirstName']+" "+customerobj['patient_LastName']}}</h5>
+             &nbsp;&nbsp;&nbsp;
+            <h5 class="hh" *ngIf="customerobj">   | {{customerobj['patient_Gender']}}</h5>
+            &nbsp;&nbsp;&nbsp;
+            <h5 class="hh" *ngIf="customerobj">  | {{customerobj['encounter_Age']}}</h5>
+
+
+
+<!--            <ul *ngIf="customerobj" class="d-flex  mt-2 " >-->
+<!--                <li style="margin-right: 0px;">{{customerobj['encounter_Age']}}  </li>-->
+<!--                <li>|</li>-->
+<!--                <li style="margin-right: 2px;">{{customerobj['patient_Gender']}}</li>-->
+<!--                <li>|</li>-->
+<!--                <li style="margin-right: 3px;">{{customerobj['patient_FirstName']+" "+customerobj['patient_LastName']}}</li>-->
+
+<!--            </ul>-->
+
+
+
+
+<!--            <form class="navbar-form navbar-right mt-1" role="search">-->
+<!--                <div class="position-relative has-icon-right">-->
+<!--                    <input type="text" class="form-control round" placeholder="جستجو">-->
+<!--                    <div class="form-control-position">-->
+<!--                        <i class="ft-search"></i>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </form>-->
+
+        </div>
+        <div class="navbar-container col-3 mt-2">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent" [ngbCollapse]="isCollapsed">
+                <ul class="navbar-nav">
+                    <li class="nav-item mr-2  d-none d-lg-block">
+                        <a href="javascript:;" class="nav-link" id="navbar-fullscreen" appToggleFullscreen
+                            (click)="ToggleClass()">
+                            <i class="{{toggleClass}} font-medium-3 blue-grey " style="color: white !important;"></i>
+                            <p class="d-none">تمام صفحه</p>
+                        </a>
+                    </li>
+            
+                    <li class="nav-item" ngbDropdown [placement]="placement">
+                        <a style="color: white" class="nav-link position-relative" id="dropdownBasic3" ngbDropdownToggle>
+                            <i class="ft-settings font-medium-3 blue-grey " style="color: white !important;"></i>
+                            <p class="d-none">تنظیمات کاربر</p>
+                        </a>
+
+                        <div ngbDropdownMenu aria-labelledby="dropdownBasic3" class="text-left">
+                           
+                            <a class="dropdown-item" href="javascript:;" [routerLink]="['/pages/login']" (click)="logOut()">
+                                <i class="ft-power mr-2"></i>
+                                <span >خروج</span>
+                            </a>
+
+                            <a  class="dropdown-item" href="javascript:;" [routerLink]="['/DoctorDashboard/doctorprofile']" >
+                                <i class="ft-user-x mr-2"></i>
+                                <span >پروفایل پزشک</span>
+                            </a>
+                        </div>
+                    </li>
+
+
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>
+<!-- Navbar (Header) Ends -->

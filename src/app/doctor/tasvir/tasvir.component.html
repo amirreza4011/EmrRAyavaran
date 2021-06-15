@@ -1,0 +1,482 @@
+<style>
+    .hand_r:hover{
+        cursor: pointer;
+        background-color: red;
+        color: red;
+        z-index: 500;
+    }
+    .headerStyle{
+        background-color: #00417a;
+        padding: 6px;
+        text-align: center
+
+    }
+    .titleStle{
+        color: white;
+        height: 4px;
+    }
+    tbody tr{
+        line-height: 10px!important;
+    }
+
+    .hover:hover{
+        color: orange;
+    }
+    .orangeBtn{
+        color: white!important;
+        background-color:#f2911b!important;
+        padding-top:2px!important;
+        padding-bottom: 2px
+    }
+    .example-form {
+        min-width: 150px;
+        max-width: 400px;
+        width: 100%;
+    }
+
+    .example-full-width {
+        width: 100%;
+    }
+
+    ul{
+        list-style: none;
+
+
+    }
+    li{
+        margin-right: 10px;
+    }
+    ul:first-child li {
+        margin: 0;
+    }
+    .orangeBtn{
+        color: white!important;
+        background-color:#f2911b!important;
+        padding-top:2px!important;
+        padding-bottom: 2px!important;
+
+    }
+    .headerStyle{
+        background-color: #00417a;
+        padding: 6px;
+        text-align: center
+
+    }
+    .titleStle{
+        color: white;height: 4px
+    }
+
+    .trserch{
+        background-color: #00417a;
+        text-align: center;
+        color: white;
+        font-size: 13px;
+    }
+
+</style>
+
+<div class="container-fluid" style="direction: ltr!important;">
+
+    <div class="d-flex col-12 border" style="padding: 0!important;">
+
+        <div class="col-8 " style="padding-right: 2px!important; margin: 0!important;padding-left: 0!important;">
+            <div class="col-12 mt-1 headerStyle" style="text-align: right;padding: 16px;background-color: #00417a">
+                <h5  style="font-weight: 400;" class="titleStle"  > ثبت رایولوژی </h5>
+
+            </div>
+            <div class="col-12" style="padding: 4px; background-color: transparent;border-bottom:2px solid;display: flex;flex-wrap: wrap">
+             X-Ray   <mat-radio-button>
+
+                </mat-radio-button> &nbsp;
+                Sono  <mat-radio-button>
+
+            </mat-radio-button> &nbsp;
+               MRI   <mat-radio-button>
+
+            </mat-radio-button> &nbsp;
+               CT-Scan   <mat-radio-button>
+
+            </mat-radio-button> &nbsp;
+                CT-Angio   <mat-radio-button>
+
+            </mat-radio-button> &nbsp;
+                MamoGraphy   <mat-radio-button>
+
+            </mat-radio-button> &nbsp;
+                AngioGraphy   <mat-radio-button>
+
+            </mat-radio-button> &nbsp;
+            </div>
+
+
+            <div   class=" col-12"  style="font-size: 17px; border-color: black ;padding:0; ">
+
+                    <form  action="" name="myform" [formGroup]="labform" (ngSubmit)="onSubmit()" >
+                        <div class="col-12 d-flex " style="height: auto">
+                            <div  class="example-full-width col-7  mt-3">
+                                <input autofocus id="test" formControlName="labname" autocomplete="off" placeholder="...نام رادیولوژی"  type="text"  class="form-control" style="text-align: left"  matInput (input)="onSearchChange($event)" value="{{value}}"  />
+                                <!--                                    <input  value="{{value}}" [(ngModel)]="value"/>-->
+
+                                <svg style="margin-top: -63px;
+                            margin-left: 95%;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                                </svg>
+                                <ul class="form-control" style="border:none; text-align: left;height: 300px;max-height: 300px;overflow-x:hidden;overflow-y: scroll ;list-style: none;position: absolute;z-index: 30;padding: 0;margin-top: -28px;border: 2px solid" *ngIf="serchlist && serchlist.length>0" >
+                                    <li style="background-color: white;border-bottom: 1px solid;" >
+                                        <table class="table table-bordered">
+                                            <tr class="trserch">
+                                                <th>#</th>
+                                                <th>نام رادیولوژی</th>
+
+                                            </tr>
+                                            <tr (click)="set(i)" *ngFor="let i of serchlist,let p=index">
+                                                <td>{{p+1}}</td>
+                                                <td>
+                                                    <button   style="border: none;background-color:transparent;font-size: 14px;text-align: left;"  class="w-100" > {{i['name']}}</button>
+
+                                                </td>
+
+                                            </tr>
+                                        </table>
+                                    </li>
+                                </ul>
+                            </div>
+                            <svg title="" xmlns="http://www.w3.org/2000/svg" (click)="GetDetails(content)"  width="30" height="30" fill="currentColor" class="bi bi-star-fill mt-3 ml-1" viewBox="0 0 16 16" style="cursor: pointer;color: red"  >
+                                <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.283.95l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                            </svg>
+                        </div>
+
+                    </form>
+
+
+
+
+                <div *ngIf="result" style="    text-align: center;
+    color: green;
+    font-weight: 700;">
+                    درخواست شما با شماره پیگیری {{" "+result['trackingNumber']+"  "}}ثبت شد
+                </div>
+            </div>
+            <div class="col-12 mt-2">
+                <!--                    <div style="font-weight: 400; background-color: #bc462d;color:white;margin: 0!important;text-align: right;padding: 6px" class="w-100 mt-2" > آزمایش انتخاب شده</div>-->
+                <table class="table table-bordered table-hover" style="text-align: center">
+                    <tbody style="cursor: pointer">
+                    <tr style="background-color: #00417a;color: white">
+                        <th>
+                            #
+                        </th>
+                        <th>
+                            نام خدمت
+                        </th>
+                        <th>
+                            پرکاربرد
+
+                        </th>
+                        <th>
+                            حذف
+                        </th>
+                    </tr>
+                    <tr  *ngFor="let item of datafinal;let i=index">
+                        <td>
+                            {{i+1}}
+                        </td>
+                        <td (click)="Get_Last_History_Of_Observation(item['name'])" scope="row" class="hover" >
+                            {{item['name']}}
+
+                        </td>
+                        <td style="cursor: pointer;color:#f2911b" class="text-center" >
+                            <input type="checkbox"  (click)="favLIst(item)">
+                        </td>
+                        <td style="cursor: pointer;color:#f2911b " class="text-center">
+                            <svg  xmlns="http://www.w3.org/2000/svg"  width="20" height="20" fill="currentColor" class="bi bi-trash" (click)="deleteItem(i)" viewBox="0 0 16 16">
+                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                                <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                            </svg>
+
+                        </td>
+
+
+                    </tr>
+
+
+
+                    </tbody>
+                </table>
+            </div>
+            <button class="btn btn-warning " (click)="save()" style="background-color: #f2911b !important;color: white !important;margin-left: 30px;margin-top: 6px"   > ثبت و ارسال<i class="ft-save"></i> </button>
+
+        </div>
+        <div class="col-4 " style="padding: 0!important; margin: 0!important;background-color: white;text-align: center">
+            <div class="col-12 mt-1 headerStyle" style="text-align: right;padding: 11px;background-color: #00417a;display: flex;direction: rtl">
+               &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;     <h5  style="font-weight: 400;" class="titleStle"  > انتخاب (در حال حاضر فعال نمیباشد)  </h5>
+
+            </div>
+
+             <img  src="../../../assets/body.jpg" usemap="#image-map">
+            <i style="cursor: pointer;color: white;font-size: 20px" title="چرخش تصویر" class="ft ft-rotate-ccw"> </i>
+              <map name="image-map">
+              <area target="" class="hand_r" alt="دست راست" title="دست راست"  coords="2,330,60,262" shape="rect">
+              <area target="" alt="دست چپ" title="دست چپ"  coords="241,340,299,264" shape="rect">
+              <area target="" alt="پای راست" title="پای راست"  coords="78,564,140,500" shape="rect">
+              <area target="" alt="پای چپ" title="پای چپ"  coords="165,563,221,503" shape="rect">
+              <area target="" alt="سر و گردن" title="سر و گردن"  coords="121,24,182,100" shape="rect">
+               <area target="" alt="سینه" title="سینه"  coords="98,117,208,184" shape="rect">
+               <area target="" alt="شکم" title="شکم"  coords="103,205,198,256" shape="rect">
+                   </map>
+
+        </div>
+    </div>
+    {{messg}}
+    <!--        <div class="row">-->
+    <!--            <div class="col-12">-->
+    <!--                <div  style="direction: ltr;">-->
+    <!--                    <div class="col-12 mt-1 headerStyle" style="padding: 11px;background-color: #a5a12b;display: flex">-->
+    <!--                        <div class="col-6" style="text-align: right">-->
+    <!--                            <h5  style="font-weight: 400;" class="titleStle"  > نمایش نتایج  </h5>-->
+
+    <!--                        </div>-->
+    <!--                        <div class="col-6" style="text-align: right">-->
+    <!--                            <button  *ngIf="show == false" (click)="obshow()" style="background-color: #f2911b;background-color: #f2911b;-->
+    <!--    padding: 4px;-->
+    <!--    font-weight: 600;-->
+    <!--    color: aliceblue;-->
+    <!--    border: none;"> نمایش </button>-->
+    <!--                            <button *ngIf="show == true" (click)="obhide()" style="background-color: #f2911b;background-color: #f2911b;-->
+    <!--    padding: 4px;-->
+    <!--    font-weight: 600;-->
+    <!--    color: aliceblue;-->
+    <!--    border: none;">  عدم نمایش</button>-->
+    <!--                        </div>-->
+
+
+    <!--                    </div>-->
+    <!--                    <div *ngIf="show">-->
+    <!--                        <div class="col-12 w-100 mt-1">-->
+
+    <!--                            <input type="checkbox" class="mr-2" id="All Orders">-->
+    <!--                            <label for="All Orders">All Orders</label>-->
+    <!--                            <input type="checkbox" class="mr-2" id="Latest Order" style="  border-radius: 50%;!important;">-->
+    <!--                            <label for="All Orders">Latest Order</label>-->
+    <!--                            <input type="checkbox" class="mr-2" id="Last Week">-->
+    <!--                            <label for="All Orders">Last Week</label>-->
+    <!--                            <input type="checkbox" class="mr-2" id="Last Month">-->
+    <!--                            <label for="All Orders">Last Month</label>-->
+    <!--                            <input type="checkbox" class="mr-2" id="Last Year">-->
+    <!--                            <label for="All Orders">Last Year</label>-->
+    <!--                        </div>-->
+    <!--                        <div class="col-12">-->
+    <!--                            <table class="table table-bordered" style="margin: 0!important;padding: 0!important;">-->
+    <!--                                <thead>-->
+    <!--                                <tr>-->
+    <!--                                    <th scope="col">-->
+    <!--                                        <input type="checkbox">-->
+    <!--                                    </th>-->
+    <!--                                    <th scope="col">Hematology</th>-->
+    <!--                                    <th scope="col">-->
+    <!--                                        <input type="checkbox">-->
+    <!--                                    </th>-->
+    <!--                                    <th scope="col">Biochemistry</th>-->
+    <!--                                    <th scope="col">-->
+    <!--                                        <input type="checkbox">-->
+    <!--                                    </th>-->
+    <!--                                    <th scope="col">Immunology/Serology</th>-->
+    <!--                                    <th scope="col">-->
+    <!--                                        <input type="checkbox">-->
+    <!--                                    </th>-->
+    <!--                                    <th scope="col">Urinalysis</th>-->
+    <!--                                    <th scope="col">-->
+    <!--                                        <input type="checkbox">-->
+    <!--                                    </th>-->
+    <!--                                    <th scope="col">Microbiology</th>-->
+    <!--                                    <th scope="col">-->
+    <!--                                        <input type="checkbox">-->
+    <!--                                    </th>-->
+    <!--                                    <th scope="col">Parasitology</th>-->
+    <!--                                    <th scope="col">-->
+    <!--                                        <input type="checkbox">-->
+    <!--                                    </th>-->
+    <!--                                    <th scope="col">Virology</th>-->
+    <!--                                    <th scope="col">-->
+    <!--                                        <input type="checkbox">-->
+    <!--                                    </th>-->
+    <!--                                    <th scope="col">Toxicology</th>-->
+    <!--                                </tr>-->
+    <!--                                </thead>-->
+    <!--                                <tbody>-->
+    <!--                                &lt;!&ndash;                          <tr>&ndash;&gt;-->
+    <!--                                &lt;!&ndash;                              <th scope="row">  <input type="checkbox"></th>&ndash;&gt;-->
+    <!--                                &lt;!&ndash;                              <td></td>&ndash;&gt;-->
+
+    <!--                                &lt;!&ndash;                          </tr>&ndash;&gt;-->
+    <!--                                &lt;!&ndash;                          <tr>&ndash;&gt;-->
+    <!--                                &lt;!&ndash;                              <th scope="row">  <input type="checkbox"></th>&ndash;&gt;-->
+    <!--                                &lt;!&ndash;                              <td></td>&ndash;&gt;-->
+
+    <!--                                &lt;!&ndash;                          </tr>&ndash;&gt;-->
+    <!--                                <tr>-->
+    <!--                                    <td ><input type="checkbox"></td>-->
+    <!--                                    <td>PT</td>-->
+    <!--                                    <td><input type="checkbox"></td>-->
+    <!--                                    <td>Na</td>-->
+    <!--                                    <td><input type="checkbox"></td>-->
+    <!--                                    <td></td>-->
+    <!--                                    <td><input type="checkbox"></td>-->
+    <!--                                    <td></td>-->
+    <!--                                    <td><input type="checkbox"></td>-->
+    <!--                                    <td></td>-->
+    <!--                                    <td><input type="checkbox"></td>-->
+    <!--                                    <td></td>-->
+    <!--                                    <td><input type="checkbox"></td>-->
+    <!--                                    <td></td>-->
+    <!--                                    <td><input type="checkbox"></td>-->
+    <!--                                    <td></td>-->
+    <!--                                </tr>-->
+    <!--                                <tr>-->
+    <!--                                    <td ><input type="checkbox"></td>-->
+    <!--                                    <td>PTT</td>-->
+    <!--                                    <td><input type="checkbox"></td>-->
+    <!--                                    <td>K</td>-->
+    <!--                                    <td><input type="checkbox"></td>-->
+    <!--                                    <td></td>-->
+    <!--                                    <td><input type="checkbox"></td>-->
+    <!--                                    <td></td>-->
+    <!--                                    <td><input type="checkbox"></td>-->
+    <!--                                    <td></td>-->
+    <!--                                    <td><input type="checkbox"></td>-->
+    <!--                                    <td></td>-->
+    <!--                                    <td><input type="checkbox"></td>-->
+    <!--                                    <td></td>-->
+    <!--                                    <td><input type="checkbox"></td>-->
+    <!--                                    <td></td>-->
+    <!--                                </tr>-->
+    <!--                                <tr>-->
+    <!--                                    <td ><input type="checkbox"></td>-->
+    <!--                                    <td></td>-->
+    <!--                                    <td><input type="checkbox"></td>-->
+    <!--                                    <td>FBS</td>-->
+    <!--                                    <td><input type="checkbox"></td>-->
+    <!--                                    <td></td>-->
+    <!--                                    <td><input type="checkbox"></td>-->
+    <!--                                    <td></td>-->
+    <!--                                    <td><input type="checkbox"></td>-->
+    <!--                                    <td></td>-->
+    <!--                                    <td><input type="checkbox"></td>-->
+    <!--                                    <td></td>-->
+    <!--                                    <td><input type="checkbox"></td>-->
+    <!--                                    <td></td>-->
+    <!--                                    <td><input type="checkbox"></td>-->
+    <!--                                    <td></td>-->
+    <!--                                </tr>-->
+    <!--                                <tr>-->
+    <!--                                    <td ><input type="checkbox"></td>-->
+    <!--                                    <td></td>-->
+    <!--                                    <td><input type="checkbox"></td>-->
+    <!--                                    <td></td>-->
+    <!--                                    <td><input type="checkbox"></td>-->
+    <!--                                    <td></td>-->
+    <!--                                    <td><input type="checkbox"></td>-->
+    <!--                                    <td></td>-->
+    <!--                                    <td><input type="checkbox"></td>-->
+    <!--                                    <td></td>-->
+    <!--                                    <td><input type="checkbox"></td>-->
+    <!--                                    <td></td>-->
+    <!--                                    <td><input type="checkbox"></td>-->
+    <!--                                    <td></td>-->
+    <!--                                    <td><input type="checkbox"></td>-->
+    <!--                                    <td></td>-->
+    <!--                                </tr>-->
+    <!--                                <tr>-->
+    <!--                                    <td ><input type="checkbox"></td>-->
+    <!--                                    <td></td>-->
+    <!--                                    <td><input type="checkbox"></td>-->
+    <!--                                    <td></td>-->
+    <!--                                    <td><input type="checkbox"></td>-->
+    <!--                                    <td></td>-->
+    <!--                                    <td><input type="checkbox"></td>-->
+    <!--                                    <td></td>-->
+    <!--                                    <td><input type="checkbox"></td>-->
+    <!--                                    <td></td>-->
+    <!--                                    <td><input type="checkbox"></td>-->
+    <!--                                    <td></td>-->
+    <!--                                    <td><input type="checkbox"></td>-->
+    <!--                                    <td></td>-->
+    <!--                                    <td><input type="checkbox"></td>-->
+    <!--                                    <td></td>-->
+    <!--                                </tr>-->
+    <!--                                <tr>-->
+    <!--                                    <td ><input type="checkbox"></td>-->
+    <!--                                    <td></td>-->
+    <!--                                    <td><input type="checkbox"></td>-->
+    <!--                                    <td></td>-->
+    <!--                                    <td><input type="checkbox"></td>-->
+    <!--                                    <td></td>-->
+    <!--                                    <td><input type="checkbox"></td>-->
+    <!--                                    <td></td>-->
+    <!--                                    <td><input type="checkbox"></td>-->
+    <!--                                    <td></td>-->
+    <!--                                    <td><input type="checkbox"></td>-->
+    <!--                                    <td></td>-->
+    <!--                                    <td><input type="checkbox"></td>-->
+    <!--                                    <td></td>-->
+    <!--                                    <td><input type="checkbox"></td>-->
+    <!--                                    <td></td>-->
+    <!--                                </tr>-->
+    <!--                                </tbody>-->
+    <!--                            </table>-->
+
+    <!--                        </div>-->
+    <!--                        <div class="col-12 mt-1">-->
+    <!--                            <button class="btn orangeBtn ">-->
+    <!--                                Favorite Trend-->
+    <!--                            </button>-->
+    <!--                            <button class="btn orangeBtn ml-2 " [routerLink]="['/DoctorDashboard/showResult']">-->
+    <!--                                Show Result-->
+    <!--                            </button>-->
+    <!--                        </div>-->
+    <!--                    </div>-->
+
+
+
+    <!--                </div>-->
+
+    <!--            </div>-->
+    <!--        </div>-->
+
+    <!--        End labReq Page-->
+
+
+    <ng-template #content let-c="close" let-d="dismiss" >
+
+        <div class="modal-body" id="kbModal-body" style="font-family: Tahoma!important;" >
+            <div style="display: flex ;flex-wrap: wrap ">
+                <div *ngIf="result1"  class="col-12" style="font-size: 17px; border-color: black;display: flex;padding:0;flex-wrap: wrap ">
+                    <div *ngFor="let item of labfav" class="col-12" style="padding: 0!important;margin: 4px">
+                        <ul  class="d-flex  mt-2 border " style="padding: 0!important;"  >
+                            <li style="margin-right: 5px;"><input style="width: 20px;height:20px" type="checkbox" (click)="setfav(item['res'])" /></li>
+                            <li>|</li>
+                            <li style="margin-right: 5px;">{{item['res']['name']}} </li>
+                            <li>|</li>
+                            <li  >
+                                <svg (click)="deletmozmen(item['id'])" xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="color: #f2911b;cursor: pointer " fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                                    <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                                </svg>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+    </ng-template>
+
+</div>
+<div *ngIf="loading" class="col-12" style="text-align: center;margin-top: -15%">
+    <img src="assets/img/flags/760.gif" />
+</div>
+
+
+
+

@@ -1,0 +1,393 @@
+<style>
+    i:hover{
+        color: white;
+    }
+    .mess{
+        margin: 0 auto;
+        background-color: #0d47a1;
+        height: 70px;
+        z-index: 200;
+        color: white;
+        padding: 7px;
+        margin-top: -22%;
+        text-align: right;
+    }
+</style>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-5" style="padding: 0; height: auto;background-color: white;margin-top: 10px">
+            <div class="col-12" style="padding-top: 4px; height: 32px;text-align: right;color: white;background-color: #00417a;display: flex;padding-right: 6px">
+                              <i class="ft-plus-circle"></i>    افزودن نسخه جدید &nbsp;&nbsp;&nbsp;
+                              <span style="margin-right: 50px">
+                                  <label>نسخه آزمایش</label>
+                                  <input checked (change)="settype(1)" type="radio" name="chek" value="1"  style="width: 29px;height: 20px;"/>
+                              </span>
+                              <span style="margin-right: 50px">
+                                  <label>نسخه دارویی</label>
+                                  <input (change)="fav_nos_droug()"  type="radio" name="chek" value="2"  style="width: 29px;height: 20px;"/>
+                              </span>
+
+            </div>
+            <div class="col-lg-12" style="text-align: left;direction: rtl;margin-top: 3px;padding: 4px">
+               <form  [formGroup]="profileform" (ngSubmit)="onSubmit()">
+                   <div class="col-12" style="display: flex;flex-wrap: wrap">
+                       <div class="col-8" style="text-align: right;padding: 6px">
+                           <label >نام نسخه:</label>
+                           <input autocomplete="off" id="test" formControlName="name" placeholder="نام نسخه جدید را وارد کنید.." style="padding-right: 2px" type="text" class="form-control" />
+
+
+                       </div>
+                       <div class="col-4" style="text-align: center;padding-top: 36px">
+                           <button style="width: 92px;height: 30px" class="btn btn-dropbox" >
+                               <i class="ft-save"></i>
+                               ثبت
+                           </button>
+                       </div>
+                   </div>
+
+
+               </form>
+            </div>
+
+            <div *ngIf="type==1" class="col-lg-12" style="margin-right: 2px; padding: 0; height: auto;background-color: white;margin-top: 10px">
+                <div class="col-12" style="padding-top: 4px; height: 32px;text-align: right;color: white;background-color: #00417a;display: flex;padding-right: 6px">
+                </div>
+                <div *ngIf="itemset" class="col-lg-12" style="text-align: left;direction: ltr;margin-top: 3px;">
+                    <nav  *ngFor="let i of itemset,let in=index">
+                        <div class="menu-item "  >
+                            <h4 style="display: flex">
+                                <a >
+                                    <i class="ft-layers"></i>&nbsp;{{i['favename']}} &nbsp;
+                                </a>
+                                <i (click)="delete(i['id'])" class="ft-trash">
+
+                                </i>&nbsp;&nbsp;
+
+                                <mat-radio-button (change)="set_id(i['id'])">
+
+                                </mat-radio-button>
+                            </h4>
+                            <ul style="padding: 0px">
+                                <li *ngFor="let item of  i['res']" style="font-size: 18px;font-weight: 700;"><i class="ft-inbox"></i>{{item['name']}} </li>
+
+                            </ul>
+
+                        </div>
+
+                    </nav>
+
+                </div>
+            </div>
+        </div>
+        <div *ngIf="type==1" class="col-lg-7" style="background-color: transparent;height: 200px;margin-top: 10px;padding-right: 3px;direction: ltr">
+            <div class="col-12" style="padding-top: 4px; height: 32px;text-align: center;color: white;background-color: #00417a;display: flex;padding-right: 6px;direction: rtl">
+                <i class="ft-save"></i>
+                افزودن آیتم های جدید &nbsp;&nbsp;&nbsp;
+                <a routerLink="/DoctorDashboard/patientList" style="color: white;cursor: pointer;margin-right: 70%;" class="ft ft-skip-back">
+
+                </a>
+            </div>
+            <div class=" col-12"  style="font-size: 17px; border-color: black ;padding:0; ">
+                <div class="form-group">
+                    <form action="" name="myform" [formGroup]="labform" (ngSubmit)="onSubmit()" >
+                        <div class="col-12 d-flex ">
+                            <div  class="example-full-width col-7  mt-3">
+                                <input autofocus formControlName="labname" autocomplete="off" placeholder="...نام آزمایش"  type="text"  class="form-control" style="text-align: left;padding-left: 4px"  matInput (input)="onSearchChange($event)" value="{{value}}"  id="test1" />
+                                <!--                                    <input  value="{{value}}" [(ngModel)]="value"/>-->
+
+                                <svg style="margin-top: -63px;
+                            margin-left: 95%;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                                </svg>
+                                <ul class="form-control" style="border:none; text-align: left;height: 300px;overflow-x:hidden;overflow-y: scroll ;list-style: none;position: absolute;z-index: 30;padding: 0;margin-top: -26px;transition: all 0.4s;background-color: white;border: 2px solid;" *ngIf="serchlist && serchlist.length>0" >
+                                    <li style="background-color: white;border-bottom: 1px solid;" >
+                                        <table class="table table-bordered">
+                                            <tr class="trserch">
+                                                <th>#</th>
+                                                <th>نام آزمایش</th>
+
+                                            </tr>
+                                            <tr (click)="set(i)" *ngFor="let i of serchlist,let p=index">
+                                                <td>{{p+1}}</td>
+                                                <td>
+                                                    <button type="button"  style="border: none;background-color:transparent;font-size: 14px;text-align: left;"  class="w-100" > {{i['name']}}</button>
+
+                                                </td>
+
+                                            </tr>
+                                        </table>
+                                    </li>
+                                </ul>
+                            </div>
+
+                        </div>
+
+                    </form>
+
+
+
+                </div>
+
+            </div>
+            <div class="col-12 mt-2">
+                <!--                    <div style="font-weight: 400; background-color: #bc462d;color:white;margin: 0!important;text-align: right;padding: 6px" class="w-100 mt-2" > آزمایش انتخاب شده</div>-->
+                <table class="table table-bordered table-hover" style="text-align: center">
+                    <tbody style="cursor: pointer">
+                    <tr style="background-color: #00417a;color: white">
+                        <th>
+                            #
+                        </th>
+                        <th>
+                            نام خدمت
+                        </th>
+                        <th>
+                            حذف
+                        </th>
+                    </tr>
+                    <tr  *ngFor="let item of datafinal;let i=index">
+                        <td>
+                            {{i+1}}
+                        </td>
+                        <td  scope="row" class="hover" >
+                            {{item['name']}}
+
+                        </td>
+                        <td style="cursor: pointer;color:#f2911b " class="text-center">
+                            <svg  xmlns="http://www.w3.org/2000/svg"  width="20" height="20" fill="currentColor" class="bi bi-trash" (click)="deleteItem(i)" viewBox="0 0 16 16">
+                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                                <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                            </svg>
+
+                        </td>
+
+
+                    </tr>
+
+
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-12 border" style="margin-top:5px !important;padding: 0!important; background-color:#f0f9ff;height: auto;display: flex;">
+                                        <div class="col-6" style="text-align: left;">
+                                <button   class="btn btn-primary mt-1 ml-1 loading " style="background-color: #f2911b!important; color: white!important;border: none" (click)="savedata()"> ثبت</button>
+
+                            </div>
+                                 </div>
+        </div>
+<!--        <div *ngIf="type==2" class="col-lg-7" style="background-color: transparent;height: 200px;margin-top: 10px;padding-right: 3px;direction: ltr">-->
+<!--            <div class="col-12" style="padding-top: 4px; height: 32px;text-align: center;color: white;background-color: #00417a;display: flex;padding-right: 6px;direction: rtl">-->
+<!--                <i class="ft-save"></i>    افزودن آیتم های جدید &nbsp;&nbsp;&nbsp;-->
+<!--            </div>-->
+<!--            <div style="display: flex"  class="border col-12"  style="font-size: 17px; border-color: black ;padding:0 ">-->
+<!--                <div class="form-group col-12">-->
+<!--                    <form action="" name="myform" [formGroup]="signupForm" (ngSubmit)="onSubmit_d()" >-->
+
+<!--                        <div class="col-12 d-flex ">-->
+<!--                            <div  class="example-full-width col-5  mt-3">-->
+<!--                                <input    autofocus [readonly]="editrecord?true:false" formControlName="drugname" autocomplete="off" placeholder="...نام دارو" name="drugName" type="text"  class="form-control" style="text-align: left"  matInput (input)="onSearchChange_d($event)" value="{{editrecord?editrecord['drugname']:value}}" [(ngModel)]="editrecord?editrecord['drugname']:value" id="namedrug"/>-->
+<!--                                <input hidden [(ngModel)]="editrecord?editrecord['drugid']:drugid"  value="{{editrecord?editrecord['drugid']:drugid}}" formControlName="drugid" />-->
+<!--                                <input hidden [(ngModel)]="generic"  value="{{generic}}" formControlName="generic_Code" />-->
+<!--                                <input hidden [(ngModel)]="erX_Code"  value="{{erX_Code}}" formControlName="erX_Code" />-->
+
+<!--                                <svg style="margin-top: -63px;-->
+<!--                            margin-left: 95%;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">-->
+<!--                                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>-->
+<!--                                </svg>-->
+<!--                                <ul class="form-control" style="border:none; text-align: left;height: 300px;overflow-x:hidden;overflow-y: scroll ;list-style: none;position: absolute;z-index: 30;padding: 0;margin-top: -26px;transition: all 0.4s;background-color: white;border: 2px solid;" *ngIf="serchlist_d.length >0" >-->
+<!--                                    <li style="background-color: white;border-bottom: 1px solid;" >-->
+<!--                                        <table class="table table-bordered">-->
+<!--                                            <tr class="trserch">-->
+<!--                                                <th>#</th>-->
+<!--                                                <th>نام دارو</th>-->
+
+<!--                                            </tr>-->
+<!--                                            <tr (click)="set_d(i)" *ngFor="let i of serchlist_d,let p=index">-->
+<!--                                                <td>{{p+1}}</td>-->
+<!--                                                <td>-->
+<!--                                                    <button *ngIf="i.qty==0 "  disabled style="border: none;background-color:transparent;font-size: 14px;text-align: left;"  class="w-100" > {{i.name}}</button>-->
+<!--                                                    <button   *ngIf="i.qty !=0 " style="border: none;background-color:transparent;font-size: 14px;text-align: left;"  class="w-100" > {{i.name}}</button>-->
+<!--                                                </td>-->
+<!--                                            </tr>-->
+<!--                                        </table>-->
+<!--                                    </li>-->
+<!--                                </ul>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="col-12 d-flex" style="background-color: transparent;flex-wrap: wrap">-->
+<!--                            <div class="col-2   mt-2">-->
+<!--                                <label for="name" class="mt-1 mr-1">Frequency: </label>-->
+<!--                                <select *ngIf="listfrequncy" formControlName="Frequency" #Frequency class="form-control"  id="">-->
+<!--                                    <option [ngValue]="null" selected disabled>{{editrecord?editrecord['Frequency']:''}}</option>-->
+<!--                                    <option *ngFor="let i of listfrequncy['items']" value="{{i.id+'-'+i.displayName}}">{{i.displayName}} </option>-->
+
+
+<!--                                </select>-->
+<!--                                <div *ngIf="signupForm.controls['Frequency'].invalid && (signupForm.controls['Frequency'].dirty || signupForm.controls['Frequency'].touched)" class="alert alert-danger">-->
+<!--                                    <div style="text-align: center;color: white" *ngIf="signupForm.controls['Frequency'].errors.required">-->
+<!--                                        این فیلد الزامی است-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="col-2  mt-2">-->
+<!--                                <label for="" class="mt-1 mr-1" >Dose: </label>-->
+<!--                                <div class="d-flex">-->
+<!--                                    <input autocomplete="off" value="{{editrecord?editrecord['dosetxt']:''}}"  formControlName="Dosetext" type="number" placeholder="unit"  class="form-control" name="doseText">-->
+<!--                                    <select formControlName="Doseselect" #Dose class="form-control" (change)='getDose(Dose.value)' name="unit" id="fbf">-->
+<!--                                        <option [ngValue]="null" selected disabled>{{editrecord?editrecord['dosesel']:''}}</option>-->
+<!--                                        <option value="mg">mg </option>-->
+<!--                                        <option value="Tablet"> Tablet </option>-->
+<!--                                        <option value="Capsule"> Capsule </option>-->
+<!--                                        <option value="cc"> cc </option>-->
+<!--                                        <option value="Puff"> Puff </option>-->
+<!--                                        <option value="Drop"> Drop </option>-->
+<!--                                        <option value="IU"> IU </option>-->
+<!--                                        <option value="Inj."> Inj. </option>-->
+<!--                                        <option value="Spoon"> Spoon </option>-->
+<!--                                        <option value="Jamspoon"> Jamspoon </option>-->
+<!--                                        <option value="Soupspoon"> Soupspoon </option>-->
+<!--                                        <option value="ml"> ml </option>-->
+<!--                                        <option value="qs"> qs </option>-->
+<!--                                        <option value="tbsp"> tbsp </option>-->
+<!--                                        <option value="tsp"> tsp </option>-->
+<!--                                        <option value="u.d."> u.d. </option>-->
+<!--                                        <option value="ss"> ss </option>-->
+<!--                                        <option value="gr"> gr </option>-->
+<!--                                    </select>-->
+<!--                                </div>-->
+
+<!--                            </div>-->
+
+
+
+<!--                            <div class="col-2  mt-2">-->
+<!--                                <label for="name" class="mt-1 mr-1">T.No: </label>-->
+<!--                                <div *ngIf="paclist"  class="d-flex">-->
+<!--                                    <input autocomplete="off" value="{{editrecord?editrecord['TNOtext']:''}}"  type="number" formControlName="TNOtext"  placeholder="unit" class="form-control">-->
+<!--                                    <select formControlName="TNOselect" #Dispense class="form-control"  name="unit" id="rf">-->
+<!--                                        <option [ngValue]="null" selected disabled>{{editrecord?editrecord['Tnomberid']:''}}</option>-->
+<!--                                        <option *ngFor="let i of paclist['items']" value="{{i.id+'-'+i.name}}">{{i.name}} </option>-->
+<!--                                    </select>-->
+
+<!--                                </div>-->
+
+<!--                            </div>-->
+
+<!--&lt;!&ndash;                            <div class="col-5 mt-2">&ndash;&gt;-->
+<!--&lt;!&ndash;                                <label for="name" class="mt-1 mr-1">Patient Directions: </label>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <input autocomplete="off" value="{{editrecord?editrecord['Direction']:''}}" formControlName="Directions" type="text" placeholder="" class="form-control " name="Direction" style="text-align: right">&ndash;&gt;-->
+<!--&lt;!&ndash;                            </div>&ndash;&gt;-->
+
+
+
+
+<!--                        </div>-->
+
+
+<!--                        <button [disabled]="signupForm.pristine || signupForm.invalid" class="btn btn-warning " style="background-color: #f2911b !important;color: white !important;margin-left: 30px;margin-top: 6px"   > افزودن </button>-->
+
+<!--                        <button *ngIf="editrecord" class="btn btn-warning " style="background-color: #f2911b !important;color: white !important;margin-left: 30px;margin-top: 6px"   > ذخیره </button>-->
+
+<!--                    </form>-->
+<!--                </div>-->
+<!--                <div class="col-12 ">-->
+<!--                                    <table class="table table-bordered" style="padding: 0!important;margin: 0!important;">-->
+<!--                                        <thead>-->
+<!--                                        <tr  class="text-center theader">-->
+<!--                                            <th scope="col">#</th>-->
+<!--                                            <th scope="col">Drug name</th>-->
+<!--                                            <th scope="col">Frequency</th>-->
+<!--                                            <th scope="col">Dose</th>-->
+<!--                                            <th scope="col">T.No</th>-->
+<!--                                            <th scope="col"> Delete</th>-->
+<!--                                        </tr>-->
+<!--                                        </thead>-->
+<!--                                        <tbody>-->
+
+<!--                                        <tr *ngFor="let i of listItem,let y=index">-->
+<!--                                            <th scope="row">{{y+1}}</th>-->
+<!--                                            <td style="font-size: 11px;">{{i['drugname']}}</td>-->
+<!--                                            <td class="text-center">{{i['Frequency']}}</td>-->
+<!--                                            <td class="text-center">{{i['doseText']}}</td>-->
+<!--                                            <td class="text-center">{{i['T.No']}}  </td>-->
+
+
+<!--                                            <td style="cursor: pointer;color:#f2911b " class="text-center">-->
+<!--                                                <svg xmlns="http://www.w3.org/2000/svg"  width="20" height="20" fill="currentColor" class="bi bi-trash" (click)="deleteItem(y)" viewBox="0 0 16 16">-->
+<!--                                                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>-->
+<!--                                                    <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>-->
+<!--                                                </svg>-->
+
+<!--                                            </td>-->
+<!--                                        </tr>-->
+
+
+<!--                                        </tbody>-->
+<!--                                    </table>-->
+<!--                                </div>-->
+<!--                                 <div class="col-12 border" style="margin-top:5px !important;padding: 0!important; background-color:#f0f9ff;height: auto;display: flex;">-->
+<!--                                        <div class="col-6" style="text-align: left;">-->
+<!--                                <button   class="btn btn-primary mt-1 ml-1 loading " style="background-color: #f2911b!important; color: white!important;border: none" (click)="savedata()"> ثبت</button>-->
+
+<!--                            </div>-->
+<!--                                 </div>-->
+<!--            </div>-->
+<!--        </div>-->
+
+
+    </div>
+
+
+<!--                <div class="row " style="margin-top: 3px;padding: 0">-->
+<!--            <div class="col-12 ">-->
+<!--                <table class="table table-bordered" style="padding: 0!important;margin: 0!important;">-->
+<!--                    <thead>-->
+<!--                    <tr  class="text-center theader">-->
+<!--                        <th scope="col">#</th>-->
+<!--                        <th scope="col">Drug name</th>-->
+<!--                        <th scope="col">Frequency</th>-->
+<!--                        <th scope="col">Dose</th>-->
+<!--                        <th scope="col">T.No</th>-->
+<!--                        <th scope="col"> Delete</th>-->
+<!--                    </tr>-->
+<!--                    </thead>-->
+<!--                    <tbody>-->
+
+<!--                    <tr *ngFor="let i of listItem,let y=index">-->
+<!--                        <th scope="row">{{y+1}}</th>-->
+<!--                        <td style="font-size: 11px;">{{i['drugname']}}</td>-->
+<!--                        <td class="text-center">{{i['Frequency']}}</td>-->
+<!--                        <td class="text-center">{{i['doseText']}}</td>-->
+<!--                        <td class="text-center">{{i['T.No']}}  </td>-->
+
+
+<!--                        <td style="cursor: pointer;color:#f2911b " class="text-center">-->
+<!--                            <svg xmlns="http://www.w3.org/2000/svg"  width="20" height="20" fill="currentColor" class="bi bi-trash" (click)="deleteItem(y)" viewBox="0 0 16 16">-->
+<!--                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>-->
+<!--                                <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>-->
+<!--                            </svg>-->
+
+<!--                        </td>-->
+<!--                    </tr>-->
+
+
+<!--                    </tbody>-->
+<!--                </table>-->
+<!--            </div>-->
+<!--        </div>-->
+
+<!--                 <div class="col-12 border" style="margin-top:5px !important;padding: 0!important; background-color:#f0f9ff;height: auto;display: flex;">-->
+<!--                        <div class="col-6" style="text-align: left;">-->
+<!--                <button   class="btn btn-primary mt-1 ml-1 loading " style="background-color: #f2911b!important; color: white!important;border: none" (click)="savedata()"> ثبت</button>-->
+
+<!--            </div>-->
+<!--                 </div>-->
+
+</div>
+
+<div *ngIf="messgshow" class="col-3 mess" style="margin: 0 auto;background-color: #0d47a1;height: 90px;z-index: 200;margin-top: -10%;border: 2px solid darkred">
+    <p>{{messag}}</p>
+    <button class="btn btn-reddit" (click)="closem()" >
+        <i class="ft-alert-circle" style="color: orangered"></i>   متوجه شدم
+    </button>
+</div>

@@ -1,0 +1,36 @@
+<style>
+    .bb{
+        border: 1px solid;
+        margin: 4px;
+        height: 70px;
+        border-right: 9px solid #ed0509;
+        line-height: 2;
+    }
+</style>
+<br>
+<div class="container-fluid">
+
+    <div  *ngIf="listhistory" class="row" style="direction: rtl;padding: 7px;text-align: right">
+        <div *ngFor="let i of listhistory['items']" class="col-12 bb"  >
+            <div class="col-12" style="display: flex;flex-wrap: wrap">
+                <div class="col-3">
+                    تاریخ تشخیص:  {{i['dateof_Persian']}}
+                </div>
+                <div class="col-4">
+                    دکتر:  {{i['practitioner_FirstName'+' '+ i['practitioner_LastName'] ]}}
+                </div>
+            </div>
+            <div class="col-12" style="display: flex;flex-wrap: wrap">
+                <div class="col-2">
+                    کد تشخیص:  {{i['code']}}
+                </div>
+                <div class="col-9">
+                    تشخیص:  {{i['description']}}
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+

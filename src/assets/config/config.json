@@ -1,0 +1,11 @@
+{
+  "API_URL": "http://rw80:900",
+  "packs_url" : "http://192.168.125.11/metric/hisintegration.aspx?Id=",
+  "login_default" : "d_login",
+  "drug_mode" : "E" ,
+  "sepas_url" : "http://rw35:8090/rwsepas02/api/Prescription/getInsertSimplePrescription",
+  "salamat_url" : "https://localhost:44325",
+  "salamt_api" : false
+}
+
+

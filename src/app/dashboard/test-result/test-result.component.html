@@ -1,0 +1,56 @@
+<div class="container">
+    <div class="row">
+
+            <div class="col-12 d-flex  w-100  " style="height: 100px;justify-content: space-between">
+                    <h4 class="my-3 text-bold-600">جواب آزمایش </h4>
+                    <h5 class="my-3 text-bold-300">
+                        {{hero['masterService_Name']}}
+                    </h5>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-3">
+            <table class="table"  >
+                <thead>
+                <tr *ngFor="let i of hero" >
+                    <th scope="col">Diff </th>
+                    <th scope="col"> Result </th>
+
+                </tr>
+                </thead>
+            </table>
+        </div>
+        <div class="col-9">
+            <table class="table" >
+                <thead>
+                <tr >
+                    <th scope="col">References Value </th>
+                    <th scope="col">Unit </th>
+                    <th scope="col">Method </th>
+                    <th scope="col">Result</th>
+                    <th scope="col">Test
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let i of hero['laboratory_Results']  ">
+                    <th scope="row">{{i.rangeCaption}}</th>
+                    <td>{{i.unit}}</td>
+                    <td></td>
+                    <td>{{i.testValue}}</td>
+                    <td>{{i.testName}}</td>
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+
+
+
+
+    </div>
+
+
+</div>
+

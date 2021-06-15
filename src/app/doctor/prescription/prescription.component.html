@@ -1,0 +1,127 @@
+<style>
+    ul{
+        list-style: none;
+
+
+    }
+    li{
+        margin-right: 10px;
+    }
+    ul:first-child li {
+        margin: 0;
+    }
+    .orangeBtn{
+        color: white!important;
+        background-color:#f2911b!important;
+        padding-top:2px!important;
+        padding-bottom: 2px
+
+    }
+    .headerStyle{
+        background-color: #0d47a1;
+        padding: 6px;
+        text-align: center;
+
+    }
+    .titleStle{
+        color: white;height: 4px;
+        text-align: center;
+
+    }
+    .table th{
+
+        padding: 6px!important;
+    }
+    .theader{
+        background-color: #bbe4fc;
+        line-height: 12px
+    }
+    .example-form {
+        min-width: 150px;
+        max-width: 400px;
+        width: 100%;
+    }
+
+    .example-full-width {
+        width: 100%;
+    }
+</style>
+<div class="container-fluid">
+    <app-patient-info   ></app-patient-info>
+    <app-medicaions></app-medicaions>
+
+
+    <!--End prescription-->
+    <ng-template #content let-c="close" let-d="dismiss" >
+        <div class="modal-header headerStyle d-flex justify-content-center   " style="font-family: Tahoma!important;text-align: center!important;" >
+            <h6 class="modal-title white titleStle">Favorite list</h6>
+            <button type="button" class="close white" aria-label="Close" (click)="d('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body" id="kbModal-body" style="font-family: Tahoma!important;" >
+            <table class="table table-bordered" style="padding: 0!important;margin: 0!important;">
+                <thead>
+                <tr style="background-color: #bbe4fc" class="text-center">
+                    <th scope="col"></th>
+                    <th scope="col">
+                        <input type="text" placeholder="Drug name" style="border: none;background-color: transparent">
+                    </th>
+                    <th scope="col">Frequency</th>
+                    <th scope="col">Dose</th>
+                    <th scope="col">Dose qualifier</th>
+                    <th scope="col">Duration</th>
+                    <th scope="col">Dispense</th>
+                    <th scope="col"> Delete</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th scope="row"><input type="checkbox"></th>
+                    <td >penicillin</td>
+                    <td class="text-center">Twice a day</td>
+                    <td class="text-center">500 mg </td>
+                    <td class="text-center">ac</td>
+                    <td class="text-center">10 d</td>
+                    <td class="text-center">20 # </td>
+                    <td style="cursor: pointer;color:#f2911b " class="text-center">
+                        <svg xmlns="http://www.w3.org/2000/svg"  width="20" height="20" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                            <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                        </svg>
+
+                    </td>
+
+                </tr>
+                <tr>
+                    <th scope="row"><input type="checkbox"></th>
+
+                    <td>Acetaminophen</td>
+                    <td class="text-center">Once a day</td>
+                    <td class="text-center">1 tablet </td>
+                    <td class="text-center">od</td>
+                    <td class="text-center">1 m</td>
+
+                    <td class="text-center">10 # </td>
+                    <td style="cursor: pointer;color:#f2911b" class="text-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                            <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                        </svg>
+
+                    </td>
+
+
+                </tr>
+
+                </tbody>
+            </table>
+
+        </div>
+        <div class="modal-footer d-flex justify-content-start" style="font-family: Tahoma!important;">
+            <button class="btn orangeBtn ">Add</button>
+        </div>
+    </ng-template>
+
+
+</div>

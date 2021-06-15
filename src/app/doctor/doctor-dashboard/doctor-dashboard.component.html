@@ -1,0 +1,204 @@
+<style>
+    .headerStyle{
+        background-color: #0d47a1;
+        padding: 6px;
+
+
+    }
+    .headerStyle h5 {
+        text-align: center;
+    }
+    .titleStle{
+        color: white;height: 4px;
+        text-align: center!important;
+
+    }
+    .theader{
+        background-color: #bbe4fc;
+        line-height: 12px
+    }
+    .bi-person:hover{
+        color: red;
+    }
+</style>
+{{img}}
+<div  class="container-fluid" style="direction: rtl!important;">
+    <div *ngIf="result" class="col-lg-12 col-md-12 col-sm-12  headerStyle d-flex  mt-1" style="justify-content: space-between;background-color: #00417a;" >
+        <span *ngIf="precdetail" style="color: white;font-weight: 600;">  نام پزشک  :{{"دکتر"+precdetail['practitioner_FirstName']+" "+precdetail['practitioner_LastName']}} </span>
+        <span *ngIf="resultcopy == null" style="font-weight: 600;" class="titleStle">تعداد بیمار:{{result['outPatients'].length }}</span>
+
+    </div>
+    <form  (ngSubmit)="postDate($event)">
+        <div class="col-lg-12 col-sm-12 col-md-12 d-flex" style="flex-wrap: wrap">
+            <div class="col-lg-6 col-md-12 col-sm-12  ">
+                <div class="col-lg-12 col-sm-12 col-md-12 mt-1" style="text-align: right!important;">
+
+                    <label for="" class="ml-2">از تاریخ </label>
+                    <dp-date-picker
+                            dir="rtl"
+                            [(ngModel)]="dateObject1"
+                            mode="day"
+                            name="StartDate"
+                            (onChange)="postDatestartdate($event)"
+                            placeholder="تاریخ"
+                            theme="dp-material">
+                    </dp-date-picker>
+
+                </div>
+                <div class="col-lg-12 col-sm-12 col-md-12  mt-1" style="text-align: right!important;">
+
+                    <label for="" class="ml-2"> تا تاریخ </label>
+                    <dp-date-picker
+                            dir="rtl"
+                            [(ngModel)]="dateObject"
+                            mode="day"
+                            name="EndDate"
+                            (onChange)="postDateenddate($event)"
+                            placeholder="تاریخ"
+                            theme="dp-material">
+                    </dp-date-picker>
+
+
+                </div>
+
+            </div>
+            <div class="col-lg-6 col-md-12 col-sm-12  mt-2" style="text-align: right!important;" >
+
+                <div class="col-lg-12 col-sm-12 col-md-12  d-flex">
+                    <label for="" class="ml-1 "  > وضعیت</label>
+                    <select name="chekvi" class="form-control" id="">
+                        <option value="0">ویزیت نشده </option>
+                        <option value="1"> ویزیت شده</option>
+                        <option value="2">تمامی بیماران </option>
+                    </select>
+                </div>
+                <div class="col-lg-12 col-sm-12 col-md-12 d-flex w-100 "style="justify-content: space-evenly!important;" >
+                    <div class="col-11 mt-2 d-flex " >
+                        <label style="width: 56px" for="">
+                            کد ملی</label>
+                        <input  type="text" class="form-control " placeholder="12345678" name="nationalCode">
+                    </div>
+                    <div class="col-1 mt-2 " >
+                        <button class="btn btn-outline-warning  ">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
+                                <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </form>
+
+    <div class="col-lg-12 col-sm-12 col-md-12" style="overflow-x: scroll">
+        <table *ngIf="result && result['outPatients']" class="table table-hover table-bordered" style="padding: 0!important;margin: 0!important;">
+            <thead>
+
+
+            <tr style="background-color:#00417a;color: white;" class="text-center">
+                <th scope="col">#</th>
+
+                <th scope="col">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                    </svg>
+                    &nbsp;&nbsp;
+                    <input #input value="{{val}}" id="test"   type="text" maxlength="20" name="meli" #box (keyup.enter)="onEnter(box.value)"   (input)="onSearchChange($event)"  placeholder="جستجو کد ملی یا کد بیمار..." style="border: none;background-color: white;text-align: center">
+
+                </th>
+
+                <th scope="col">نام </th>
+                <th scope="col">نام خانوادگی</th>
+                <th scope="col">وضعیت</th>
+                <th scope="col">سن</th>
+                <th scope="col">جنسیت</th>
+                <th scope="col">نام بیمه</th>
+                <th scope="col">پروفایل بیمار</th>
+            </tr>
+            </thead>
+            <tbody >
+
+            <tr class="text-center" *ngFor="let i of result['outPatients'],let m=index">
+                <td>{{m+1}}</td>
+
+<!--                <td>-->
+<!--                    <img alt="بدون تصویر"  style="width: 60px;height: 60px;border-radius: 50%" src="{{url+'/api/EMR/Get_Patient_Picture/'+i['patientID']}}" />-->
+<!--                </td>-->
+                <td >{{i['patient_NationalCode']}}</td>
+                <td class="text-center">{{i['patient_FirstName']}}</td>
+                <td class="text-center">{{i['patient_LastName']}} </td>
+                <td class="text-center">{{i['encounter_IsVisited']===false? 'ویزیت نشده':'ویزیت شده'}}</td>
+                <td class="text-center">{{i['encounter_Age']}}</td>
+                <td class="text-center">{{i['patient_Gender']}} </td>
+                <td class="text-center">{{i['insurerID1_StandardDisplayName']}} </td>
+
+                <td class="text-center"  (click)="setrout(i['encounterid'])"  >
+                    <svg title="مشاهده پروفایل بیمار" xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16" style="cursor: pointer"   >
+                        <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+                    </svg>
+                </td>
+            </tr>
+
+
+            </tbody>
+        </table>
+
+        <table *ngIf="resultcopy" class="table table-bordered" style="padding: 0!important;margin: 0!important;">
+            <thead>
+
+            <tr style="background-color:#00417a;color: white;" class="text-center">
+                <th scope="col">#</th>
+
+                <th scope="col">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                    </svg>
+                    &nbsp;&nbsp;
+                    <input   type="text" maxlength="20" name="meli" (keyup.enter)="onEnter($event)"   (input)="onSearchChange($event)"  placeholder="جستجو کد ملی یا کد بیمار..." style="border: none;background-color: white;text-align: center" #myinput>
+
+                </th>
+
+                <th scope="col">نام </th>
+                <th scope="col">نام خانوادگی</th>
+                <th scope="col">وضعیت</th>
+                <th scope="col">سن</th>
+                <th scope="col">جنسیت</th>
+                <th scope="col">پروفایل بیمار</th>
+            </tr>
+            </thead>
+            <tbody >
+
+            <tr class="text-center" >
+
+                <td>1</td>
+                <td >{{resultcopy['patient_NationalCode']}}</td>
+                <td class="text-center">{{resultcopy['patient_FirstName']}}</td>
+                <td class="text-center">{{resultcopy['patient_LastName']}} </td>
+                <td class="text-center">{{resultcopy['encounter_IsVisited']===false? 'ویزیت نشده':'ویزیت شده'}}</td>
+                <td class="text-center">{{resultcopy['encounter_Age']}}</td>
+                <td class="text-center">{{resultcopy['patient_Gender']}} </td>
+                <td (click)="setrout(resultcopy['encounterid'])"  class="text-center "  >
+                    <svg title="مشاهده پروفایل بیمار" xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16" style="cursor: pointer"   >
+                        <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+                    </svg>
+                </td>
+            </tr>
+
+
+            </tbody>
+        </table>
+    </div>
+<!--    <ngx-barcode [bc-value]="55555555" [bc-display-value]="true"></ngx-barcode>-->
+
+<div *ngIf="listdata ===null && loading==false " class="col-12" style="text-align: center;margin-top: 100px">
+    <i class="ft-user" style="font-size: 30px;color: red"></i><br />
+    داده ای وجود ندارد
+</div>
+    <div *ngIf="loading" class="col-12" style="text-align: center;margin-top: 100px">
+        <img src="assets/img/flags/760.gif" />
+    </div>
+
+</div>
+

@@ -1,0 +1,636 @@
+<style>
+    .mess{
+        margin: 0 auto;
+        background-color: #0d47a1;
+        height: 70px;
+        z-index: 200;
+        color: white;
+        padding: 7px;
+        margin-top: -22%;
+        text-align: right;
+    }
+    ul{
+        list-style: none;
+
+
+    }
+    li{
+        margin-right: 10px;
+    }
+    ul:first-child li {
+        margin: 0;
+    }
+    .orangeBtn{
+        color: white!important;
+        background-color:#f2911b!important;
+        padding-top:2px!important;
+        padding-bottom: 2px
+
+    }
+    .headerStyle{
+        background-color: #00417a;
+        padding: 6px;
+        text-align: center;
+
+    }
+    .titleStle{
+        color: white;height: 4px;
+        text-align: center;
+
+    }
+    .table th{
+
+        padding: 6px!important;
+    }
+    .theader{
+        background-color: #00417a;
+        line-height: 13px;
+        color: white;
+        font-size: 13px;
+    }
+    .example-form {
+        min-width: 150px;
+        max-width: 400px;
+        width: 100%;
+    }
+    .trserch{
+        background-color: #00417a;
+        text-align: center;
+        color: white;
+        font-size: 13px;
+    }
+
+    .example-full-width {
+        width: 100%;
+    }
+</style>
+<div class="container-fluid">
+
+    <br>
+    <div *ngIf="alarm && issalamat" class="col-12" style="text-align: right">
+
+        <div style="background-color: #0B486B;color: white;height: 30px" class="col-12">
+            پیغام دریافت شده از سازمان بیمه گر:
+        </div>
+        <div style="background-color: orangered;color: white">
+            <ul>
+                <li *ngFor="let item of alarm['snackMessage']">
+                    {{item['text']}}
+                </li>
+            </ul>
+        </div>
+
+    </div>
+    <div class="col-12" style="display: flex;padding: 0">
+
+        <div class="col-12" style="border: 1px solid;padding: 0">
+            <div class="col-12  headerStyle" style="text-align: right;padding: 11px">
+                <h5  style="font-weight: 400;" class="titleStle"  >نسخ پرکاربرد پزشک </h5>
+            </div>
+            <div style="padding: 6px;display: flex;flex-wrap: wrap">
+                <div *ngFor="let i of favdrug"  style="display: flex; width: 160px;height: 30px;background-color: white;margin: 4px">
+                   <div style="width: 38px;padding-top: 3px;border:1px solid #f78c0a">
+                                           &nbsp;<mat-radio-button
+                                           (change)="setdrug(i['jsonValue'],$event)" >
+                                           </mat-radio-button>
+                   </div>
+                    <div style="background-color: #f78c0a;text-align: center;overflow: hidden;color: white;width: 133px;padding: 2px;font-family: iransans !important;">
+                        {{i['favoriteName']}}
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="" style="direction: ltr;">
+
+        <div class="col-12 mt-1 headerStyle" style="text-align: right;padding: 11px">
+            <h5  style="font-weight: 400;" class="titleStle"  > ثبت نسخه جدید برای بیمار </h5>
+        </div>
+
+
+    <div class="alert" *ngIf="ressenddata !== 'no'  " id="print2-section" style="text-align: center;
+    font-family: 'iransans';
+    font-weight: 700;
+    font-size: 16px;
+    background-color: #f1f1f1;
+    color: #24ad69;">
+        نسخه در سامانه  ثبت و کد پیگیری برای شما صادر شد:
+        <b style="font-family: 'feather'; color: #d03725;}">{{trakingcode}}</b>
+        <ngx-barcode [bc-value]="ressenddata" [bc-display-value]="true"></ngx-barcode>
+        <button [disabled]="printValid===false"  class="btn btn-primary mt-1 ml-1 loading " [printStyle]="{div:{'direction':'rtl'}}"   style="background-color: #f2911b!important; color: white!important;border: none"  [useExistingCss]="true" printSectionId="print2-section"  ngxPrint> چاپ کد رهگیری  <i class="ft-printer"></i> </button>
+    </div>
+        <div class="alert" id="print1-section" *ngIf="trakingcode" style="text-align: center;
+    font-family: 'iransans';
+    font-weight: 700;
+    font-size: 16px;
+    background-color: green;
+    color: #24ad69;">
+            نسخه در سامانه بیمه ثبت و کد پیگیری برای شما صادر شد:
+             <b style="font-family: 'feather'; color: #d03725;}">{{trakingcode}}</b>
+            <ngx-barcode [bc-value]="trakingcode" [bc-display-value]="true"></ngx-barcode>
+            <button [disabled]="printValid===false"  class="btn btn-primary mt-1 ml-1 loading " [printStyle]="{div:{'direction':'rtl'}}"   style="background-color: #f2911b!important; color: white!important;border: none"  [useExistingCss]="true" printSectionId="print1-section"  ngxPrint> چاپ کد رهگیری  <i class="ft-printer"></i> </button>
+
+        </div>
+
+        <div style="display: flex"  class="border col-12"  style="font-size: 17px; border-color: black ;padding:0 ">
+            <div *ngIf="drug_mode=='S'" style="display: flex;text-align: left;height: 5px;font-weight: bold">
+
+                ERX   <mat-checkbox *ngIf="!ischek"  (change)="SetTerminology($event)">
+                &nbsp;&nbsp;
+            </mat-checkbox>
+
+                <mat-checkbox *ngIf="ischek"  checked="checked" (change)="SetTerminology($event)">
+                &nbsp;&nbsp;
+            </mat-checkbox>
+                BRAND   <mat-checkbox  (change)="call($event)">
+
+            </mat-checkbox>
+            </div>
+            <div *ngIf="drug_mode=='E'" style="display: flex;text-align: left;height: 5px;font-weight: bold">
+                BRAND   <mat-checkbox  (change)="call($event)">
+
+            </mat-checkbox>
+            </div>
+            <hr />
+            <div class="form-group">
+                <form action="" name="myform" [formGroup]="signupForm" (ngSubmit)="onSubmit()" >
+
+                    <div class="col-10 d-flex ">
+                        <div  class="example-full-width col-11  mt-3">
+                            <input    autofocus [readonly]="editrecord?true:false" formControlName="drugname" autocomplete="off" placeholder="...نام دارو" name="drugName" type="text"  class="form-control" style="text-align: left"  matInput (input)="onSearchChange($event)" value="{{editrecord?editrecord['drugname']:value}}" [(ngModel)]="editrecord?editrecord['drugname']:value" id="namedrug"/>
+                            <input hidden [(ngModel)]="editrecord?editrecord['drugid']:drugid"  value="{{editrecord?editrecord['drugid']:drugid}}" formControlName="drugid" />
+                            <input hidden [(ngModel)]="generic"  value="{{generic}}" formControlName="generic_Code" />
+                            <input hidden [(ngModel)]="erX_Code"  value="{{erX_Code}}" formControlName="erX_Code" />
+
+                            <svg style="margin-top: -63px;
+                            margin-left: 95%;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                            </svg>
+                            <ul class="form-control" style="border:none; text-align: left;height: 300px;overflow-x:hidden;overflow-y: scroll ;list-style: none;position: absolute;z-index: 30;padding: 0;margin-top: -26px;transition: all 0.4s;background-color: white;border: 2px solid;
+" *ngIf="serchlist.length >0" >
+                                <li style="background-color: white;border-bottom: 1px solid;" >
+                                    <table class="table table-bordered">
+                                        <tr class="trserch">
+                                            <th>#</th>
+                                            <th>نام دارو</th>
+                                            <th>وضعیت</th>
+                                        </tr>
+                                        <tr (click)="set(i)" *ngFor="let i of serchlist,let p=index">
+                                            <td>{{p+1}}</td>
+                                            <td>
+                                                <button *ngIf="i.qty==0 "  disabled style="border: none;background-color:transparent;font-size: 14px;text-align: left;"  class="w-100" > {{i.name}}</button>
+                                                <button   *ngIf="i.qty !=0 " style="border: none;background-color:transparent;font-size: 14px;text-align: left;"  class="w-100" > {{i.name}}</button>
+
+                                            </td>
+                                            <td >
+                                                <div  style="display: flex;"  disabled="true">
+                                                    <a *ngIf="i.qty==0"  style="color: white;background-color: red;width: 57px;height: 31px;font-size: 10px;    font-weight: 600;
+    font-size: 10px;text-align: center">عدم موجودی</a>
+                                                    <a *ngIf="i.iscomisin==true"  style="color: white;background-color: cornflowerblue;width: 57px;height: 31px;font-size: 10px;font-weight: 600;
+    font-size: 10px;text-align: center"> داروی کمیسیونی</a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </li>
+                            </ul>
+                        </div>
+                        <svg title="لیست داروهای پر کاربرد" xmlns="http://www.w3.org/2000/svg" (click)="GetDetails(content)"  width="30" height="30" fill="currentColor" class="bi bi-star-fill mt-3 ml-1" viewBox="0 0 16 16" style="cursor: pointer;color: red"  >
+                            <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.283.95l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                        </svg>
+                        <img (click)="GetDetailsmozmen(content)"  title="داروی مزمن" class="bi bi-star-fill mt-3 ml-1" style="width: 35px;height: 35px;border-radius: 50%;cursor: pointer;border: 1px solid red"  src="assets/img/gallery/moz.jpg" />
+                    </div>
+                    <div class="col-12 d-flex" style="background-color: transparent;flex-wrap: wrap">
+                        <div class="col-2   mt-2">
+                            <label for="name" class="mt-1 mr-1">Frequency: </label>
+                            <select *ngIf="listfrequncy" formControlName="Frequency" #Frequency class="form-control" (change)='getFrequency(Frequency.value)' id="">
+                                <option [ngValue]="null" selected disabled>{{editrecord?editrecord['Frequency']:''}}</option>
+                                <option *ngFor="let i of listfrequncy['items']" value="{{i.sepas_Code+'-'+i.displayName}}">{{i.displayName}} </option>
+
+
+                            </select>
+                            <div *ngIf="signupForm.controls['Frequency'].invalid && (signupForm.controls['Frequency'].dirty || signupForm.controls['Frequency'].touched)" class="alert alert-danger">
+                                <div style="text-align: center;color: white" *ngIf="signupForm.controls['Frequency'].errors.required">
+                                    این فیلد الزامی است
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-2  mt-2">
+                            <label for="" class="mt-1 mr-1" >Dose: </label>
+                            <div class="d-flex">
+                                <input autocomplete="off" value="{{editrecord?editrecord['dosetxt']:''}}"  formControlName="Dosetext" type="number" placeholder="unit"  class="form-control" name="doseText">
+                                <select formControlName="Doseselect" #Dose class="form-control" (change)='getDose(Dose.value)' name="unit" id="fbf">
+                                    <option [ngValue]="null" selected disabled>{{editrecord?editrecord['dosesel']:''}}</option>
+                                    <option value="mg">mg </option>
+                                    <option value="Tablet"> Tablet </option>
+                                    <option value="Capsule"> Capsule </option>
+                                    <option value="cc"> cc </option>
+                                    <option value="Puff"> Puff </option>
+                                    <option value="Drop"> Drop </option>
+                                    <option value="IU"> IU </option>
+                                    <option value="Inj."> Inj. </option>
+                                    <option value="Spoon"> Spoon </option>
+                                    <option value="Jamspoon"> Jamspoon </option>
+                                    <option value="Soupspoon"> Soupspoon </option>
+                                    <option value="ml"> ml </option>
+                                    <option value="qs"> qs </option>
+                                    <option value="tbsp"> tbsp </option>
+                                    <option value="tsp"> tsp </option>
+                                    <option value="u.d."> u.d. </option>
+                                    <option value="ss"> ss </option>
+                                    <option value="gr"> gr </option>
+                                </select>
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="col-2  mt-2">
+                            <label for="name" class="mt-1 mr-1">T.No: </label>
+                            <div *ngIf="paclist"  class="d-flex">
+                                <input autocomplete="off" value="{{editrecord?editrecord['TNOtext']:''}}"  type="number" formControlName="TNOtext"  placeholder="unit" class="form-control">
+                                <select formControlName="TNOselect" #Dispense class="form-control" (change)="getDispense(Dispense.value)" name="unit" id="rf">
+                                    <option [ngValue]="null" selected disabled>{{editrecord?editrecord['Tnomberid']:''}}</option>
+                                    <option *ngFor="let i of paclist['items']" value="{{i.id+'-'+i.name}}">{{i.name}} </option>
+                                </select>
+
+                            </div>
+
+                        </div>
+
+                        <div class="col-5 mt-2">
+                            <label for="name" class="mt-1 mr-1">Patient Directions: </label>
+                            <input autocomplete="off" value="{{editrecord?editrecord['Direction']:''}}" formControlName="Directions" type="text" placeholder="" class="form-control " name="Direction" style="text-align: right">
+                        </div>
+                        <div class="col-1 mt-2">
+
+                            <span *ngIf="show =='none'" style="    color: white;
+                            font-size: 14px;
+                            margin-top: 35px;
+                            background-color: #f2911b;cursor: pointer" class="btn btn-defult" (click)="read()"> بیشتر </span>
+                            <span *ngIf="show =='yes'" style="    color: white;
+                                  font-size: 14px;
+                                  margin-top: 35px;
+                                  background-color: #f2911b;cursor: pointer" class="btn btn-defult" (click)="hide()"> کمتر  </span>
+                        </div>
+
+
+
+                    </div>
+
+                    <div class="row" style="padding-left:29px"  *ngIf="show!='none'" >
+                        <div class="col-2 mt-1 ">
+                            <label for="name" class="mt-1 mr-1">Route: </label>
+                            <div class="d-flex width-200" >
+                                <select *ngIf="listroute" formControlName="Route" #route1 class="form-control " (change)="getRoute(route1.value)"  name="unit" id="d" >
+                                    <option [ngValue]="null" selected disabled>{{editrecord?editrecord['route']:''}}</option>
+                                    <option *ngFor="let i of listroute['items']" value="{{i.id+'-'+i.displayName}}">{{i.displayName}} </option>
+                                </select>
+                            </div>
+
+                        </div>
+                        <div class="col-2  mt-2">
+                            <label for="name" class="mt-1 mr-1">Dose qualifier: </label>
+                            <div class="d-flex">
+                                <select formControlName="qualifier" #qualifier class="form-control" (change)="getQualifier(qualifier.value)" name="unit" id="e">
+                                    <option [ngValue]="null" selected disabled>{{editrecord?editrecord['qualifier']:''}}</option>
+                                    <option value="قبل از غذا">قبل از غذا </option>
+                                    <option value="قبل از غذا"> قبل از غذا </option>
+                                    <option value="قبل از ظهر(صبح)">قبل از ظهر(صبح)</option>
+                                    <option value="هنگام خواب"> هنگام خواب </option>
+                                    <option value="بعد از غذا"> بعد از غذا </option>
+                                    <option value="بعد از ظهر(عصر)"> بعد از ظهر(عصر) </option>
+                                    <option value="همراه با غذا"> همراه با غذا </option>
+                                    <option value="بين وعده‌هاي غذائي"> بين وعده‌هاي غذائي </option>
+                                    <option value="شب‌ها"> شب‌ها </option>
+                                    <option value="قبل از ناهار و شام"> قبل از ناهار و شام </option>
+                                    <option value="بعد از ناهار و شام"> بعد از ناهار و شام </option>
+                                    <option value=" ناشتا(نيم ساعت قبل از صبحانه)">  ناشتا(نيم ساعت قبل از صبحانه) </option>
+
+                                </select>
+                            </div>
+
+                        </div>
+                        <div class="col-2  mt-2">
+                            <label for="name" class="mt-1 mr-1" style="font-size: 10px">Administration Site: </label>
+                            <div class="d-flex">
+                                <select formControlName="Administration" #administration (change)="getAdministration(administration.value)" class="form-control" name="unit" id="ee">
+                                    <option [ngValue]="null" selected disabled>{{editrecord?editrecord['Administration']:''}}</option>
+                                    <option value="موضعي بماليد"> موضعي بماليد </option>
+                                    <option value="گوش راست"> گوش راست </option>
+                                    <option value=" گوش چپ">  گوش چپ </option>
+                                    <option value="هر دو گوش"> هر دو گوش </option>
+                                    <option value=" چشم راست">  چشم راست </option>
+                                    <option value=" چشم چپ">  چشم چپ </option>
+                                    <option value="هر دو چشم"> هر دو چشم </option>
+                                    <option value="هنگام تنگي نفس"> هنگام تنگي نفس </option>
+                                    <option value="حذف شود"> حذف شود </option>
+                                    <option value="داخل گونه."> داخل گونه </option>
+                                    <option value=" رقيق شده">  رقيق شده </option>
+                                    <option value=" مكيدني">  مكيدني </option>
+
+                                </select>
+
+                            </div>
+
+                        </div>
+                        <div class="col-2  mt-2">
+                            <label for="name" class="mt-1 mr-1">Duration: </label>
+                            <div class="d-flex">
+                                <input autocomplete="off" value="{{editrecord?editrecord['Durationname']:''}}"  formControlName="Durationtext" type="number" name="DurationText" placeholder="unit"  class="form-control">
+                                <select formControlName="Durationselect" #Duration class="form-control" (change)="getDuration(Duration.value)" name="unit" id="jh">
+                                    <option [ngValue]="null" selected disabled>{{editrecord?editrecord['Durationsel']:''}}</option>
+                                    <option value="روز">روز </option>
+                                    <option value="هفته">هفته </option>
+                                    <option value="ماه"> ماه </option>
+                                    <option value="سال"> سال </option>
+                                </select>
+                            </div>
+
+                        </div>
+                    </div>
+                    <button [disabled]="signupForm.pristine || signupForm.invalid" class="btn btn-warning " style="background-color: #f2911b !important;color: white !important;margin-left: 30px;margin-top: 6px"  (click)="test()"  > افزودن </button>
+
+                    <button *ngIf="editrecord" class="btn btn-warning " style="background-color: #f2911b !important;color: white !important;margin-left: 30px;margin-top: 6px"   > ذخیره </button>
+
+                </form>
+            </div>
+
+        </div>
+
+        <div class="row " style="margin-top: 3px;padding: 0">
+            <div class="col-12 ">
+                <table class="table table-bordered" style="padding: 0!important;margin: 0!important;">
+                    <thead>
+                    <tr  class="text-center theader">
+                        <th scope="col">#</th>
+                        <th scope="col">Drug name</th>
+                        <th scope="col">Frequency</th>
+                        <th scope="col"> route</th>
+                        <th scope="col">Dose</th>
+                        <th scope="col">Dose qualifier</th>
+                        <th scope="col">Duration</th>
+                        <th scope="col">ADMINISTRATION Site</th>
+                        <th scope="col">T.No</th>
+                        <th scope="col">Favorite</th>
+                        <th scope="col">Chorinc</th>
+                        <th scope="col">Edite</th>
+                        <th scope="col"> Delete</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    <tr *ngFor="let i of listItem,let y=index">
+                        <th scope="row">{{y+1}}</th>
+                        <td style="font-size: 11px;">{{i['drugname']}}</td>
+                        <td class="text-center">{{i['Frequency']}}</td>
+                        <td class="text-center">{{i['route']}}</td>
+                        <td class="text-center">{{i['doseText']}}</td>
+                        <td class="text-center">{{i['qualifier']}} </td>
+                        <td class="text-center">{{i['Duration']}}</td>
+                        <td class="text-center">{{i['Administration']}}</td>
+                        <td class="text-center">{{i['T.No']}}  </td>
+                        <td style="cursor: pointer;color:#f2911b" class="text-center" (click)="favLIst(i)">
+<!--                            <input class="mdc-checkbox__native-control" type="checkbox"  >-->
+                            <mat-checkbox class="example-margin">
+                            </mat-checkbox>
+
+                        </td>
+                        <td style="cursor: pointer;color:#f2911b" class="text-center" (click)="chronic(i)" >
+<!--                            <input type="checkbox" ch   >-->
+                            <mat-checkbox class="example-margin">
+                            </mat-checkbox>
+                        </td>
+                                                <td style="cursor: pointer;color:#f2911b" class="text-center">
+                                                    <svg (click)="edit(i)"  xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                                                    </svg>
+                                                </td>
+
+                        <td style="cursor: pointer;color:#f2911b " class="text-center">
+                            <svg xmlns="http://www.w3.org/2000/svg"  width="20" height="20" fill="currentColor" class="bi bi-trash" (click)="deleteItem(y)" viewBox="0 0 16 16">
+                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                                <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                            </svg>
+
+                        </td>
+                    </tr>
+
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="col-12 border" style="margin-top:5px !important;padding: 0!important; background-color:#f0f9ff;height: auto;display: flex;">
+            <div *ngIf="historydrougenconter" class="col-6" style="text-align: left;">
+                <button  [disabled]="status !== '1'" class="btn btn-primary mt-1 ml-1 loading " style="background-color: #f2911b!important; color: white!important;border: none" (click)="editsave()"> اعمال تغییرات</button>
+
+            </div>
+            <div *ngIf="!historydrougenconter" class="col-6" style="text-align: left;">
+                <button   class="btn btn-primary mt-1 ml-1 loading " style="background-color: #f2911b!important; color: white!important;border: none" (click)="savedata()"> ثبت</button>
+<!--                <button   class="btn btn-primary mt-1 ml-1 loading " style="background-color: #f2911b!important; color: white!important;border: none" (click)="sendsepas()">  ارسال به سپاس </button>-->
+                <button *ngIf="issalamat"  class="btn btn-primary mt-1 ml-1 loading " style="background-color: #f2911b!important; color: white!important;border: none" (click)="sendsalamat()">  ثبت نسخه در بیمه سلامت </button>
+
+            </div>
+            <div class="col-6" style="text-align: right;">
+                <button [disabled]="printValid===false"  class="btn btn-primary mt-1 ml-1 loading " [printStyle]="{div:{'direction':'rtl'}}"   style="background-color: #f2911b!important; color: white!important;border: none"  [useExistingCss]="true" printSectionId="print-section"  ngxPrint> چاپ نسخه  <i class="ft-printer"></i> </button>
+
+            </div>
+<!--            <div class="col-6" style="text-align: right;">-->
+<!--                <button class="btn btn-warning mt-1 ml-1 " style="color: white !important;background-color:#bbe4fc !important;background-color: #f2911b!important;font-weight: 600 " [routerLink]="['/DoctorDashboard/drugRecord']" > سوابق نسخ </button>-->
+
+<!--            </div>-->
+
+        </div>
+
+
+    </div>
+</div>
+
+<div *ngIf="load" style="z-index: 203;
+    margin-top: -16%;
+    text-align: center;">
+    <img src="./assets/img/flags/760.gif" />
+
+</div>
+
+
+
+<ng-template  #content let-c="close" let-d="dismiss" >
+    <div class="modal-header headerStyle d-flex justify-content-center   " style="" >
+    </div>
+
+    <div  class="modal-body" id="kbModal-body" style="padding: 0;" >
+
+        <table *ngIf="favariteList && typemodal==1" class="table table-bordered" style="padding: 0!important;margin: 0!important;">
+            <thead>
+            <tr style="background-color: #00417a;color: white" class="text-center">
+                <th scope="col">انتخاب</th>
+                <th scope="col">
+                    Drug name
+                </th>
+                <th scope="col">Frequency</th>
+                <th scope="col">T.No</th>
+                <th>حذف</th>
+
+            </tr>
+            </thead>
+            <tbody >
+
+            <tr *ngFor="let i of favlist">
+                <th scope="row"><input (click)="chekfav(i['res'])" type="checkbox" style="width: 40px;height: 27px;cursor: pointer" /></th>
+
+                <td >{{i['res']['drugname']}}</td>
+                <td class="text-center">{{i['res']['Frequency']}}</td>
+                <td class="text-center">{{i['res']['T.No']}}</td>
+                <td style="cursor: pointer;color:#f2911b " class="text-center">
+                    <svg (click)="deletfav(i['id'])" xmlns="http://www.w3.org/2000/svg"  width="20" height="20" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                        <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                    </svg>
+
+                </td>
+
+            </tr>
+
+
+            </tbody>
+        </table>
+        <table *ngIf="resultmozmen && typemodal==2" class="table table-bordered" style="padding: 0!important;margin: 0!important;">
+            <thead>
+            <tr style="background-color: #00417a;color: white" class="text-center">
+                <th scope="col">انتخاب</th>
+                <th scope="col">
+                    Drug name
+                </th>
+                <th scope="col">Frequency</th>
+                <th scope="col">T.No</th>
+                <th>حذف</th>
+
+            </tr>
+            </thead>
+            <tbody >
+
+            <tr *ngFor="let i of mozmenlist">
+                <th scope="row"><input (click)="chekfav(i['res'])" type="checkbox" style="width: 40px;height: 27px;cursor: pointer" /></th>
+
+                <td >{{i['res']['drugname']}}</td>
+                <td class="text-center">{{i['res']['Frequency']}}</td>
+                <td class="text-center">{{i['res']['T.No']}}</td>
+                <td style="cursor: pointer;color:#f2911b " class="text-center">
+                    <svg (click)="deletmozmen(i['id'])" xmlns="http://www.w3.org/2000/svg"  width="20" height="20" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                        <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                    </svg>
+
+                </td>
+
+            </tr>
+
+
+            </tbody>
+        </table>
+
+
+
+    </div>
+    <div class="modal-footer d-flex justify-content-start" style="font-family: Tahoma!important;">
+<!--        <button class="btn orangeBtn ">ثبت اقلام</button>-->
+    </div>
+
+</ng-template>
+
+<div *ngIf="messgshow" class="col-3 mess" style="margin: 0 auto;background-color: #0d47a1;height: 90px;z-index: 200;margin-top: -16%;border: 2px solid darkred">
+    <p>{{messag}}</p>
+    <button class="btn btn-reddit" (click)="closem()" >
+     <i class="ft-alert-circle" style="color: orangered"></i>   متوجه شدم
+    </button>
+</div>
+<div class="container" style="display: none" id="print-section">
+    <div class="row" style="border: 1px solid black">
+        <div class="col-12 d-flex">
+            <div class="col-3" style="text-align: right">نام:{{customerobj['patient_FirstName']}}</div>
+            <div class="col-3" style="text-align: right">نام خانوادگی: {{customerobj['patient_LastName']}}</div>
+            <div class="col-3" style="text-align: right">جنسیت {{customerobj['patient_Gender']}}</div>
+            <div class="col-3" style="text-align: right">
+
+                تاریخ تولد {{customerobj['patient_BirthDate_Persian']}}
+
+            </div>
+
+        </div>
+        <div class="col-12 d-flex mt-2">
+            <div class="col-3" style="text-align: right">سن:{{customerobj['encounter_Age']}}</div>
+            <div class="col-3" style="text-align: right" >بخش : {{customerobj['currentLocationName']}}</div>
+            <div class="col-3" style="text-align: right" *ngIf="customerobj['encounter_IsVisited']==false"><span> وضعیت ویزیت:ویزیت نشده</span></div>
+            <div class="col-3" style="text-align: right" *ngIf="customerobj['encounter_IsVisited']==true"><span>وضعیت ویزیت:  ویزیت شده </span></div>
+            <div class="col-3" style="text-align: right">
+                کد بیمار      {{customerobj['encounterid']}}
+            </div>
+        </div>
+        <div class="col-12 d-flex mt-2">
+            <div class="col-3" style="text-align: right">نام پزشک:</div>
+
+        </div>
+
+    </div>
+
+        <table  class="table table-bordered mt-3 " style="padding: 0!important;">
+            <thead>
+            <tr  class="text-center ">
+                <th scope="col">#</th>
+                <th scope="col">Drug name</th>
+                <th scope="col">Frequency</th>
+                <th scope="col"> route</th>
+                <th scope="col">Dose</th>
+                <th scope="col">Dose qualifier</th>
+                <th scope="col">Duration</th>
+                <th scope="col">ADMINISTRATION Site</th>
+                <th scope="col">T.No</th>
+                <th scope="col">Favorite</th>
+                <th scope="col">Chorinc</th>
+
+            </tr>
+            </thead>
+            <tbody>
+
+            <tr *ngFor="let i of listItem,let y=index">
+                <th scope="row">{{y+1}}</th>
+                <td style="font-size: 11px;">{{i['drugname']}}</td>
+                <td class="text-center">{{i['Frequency']}}</td>
+                <td class="text-center">{{i['route']}}</td>
+                <td class="text-center">{{i['doseText']}}</td>
+                <td class="text-center">{{i['qualifier']}} </td>
+                <td class="text-center">{{i['Duration']}}</td>
+                <td class="text-center">{{i['Administration']}}</td>
+                <td class="text-center">{{i['T.No']}}  </td>
+                <td style="cursor: pointer;color:#f2911b" class="text-center" (click)="favLIst(i)">
+                    <!--                            <input class="mdc-checkbox__native-control" type="checkbox"  >-->
+                    <mat-checkbox class="example-margin">
+                    </mat-checkbox>
+
+                </td>
+                <td style="cursor: pointer;color:#f2911b" class="text-center" (click)="chronic(i)" >
+                    <!--                            <input type="checkbox" ch   >-->
+                    <mat-checkbox class="example-margin">
+                    </mat-checkbox>
+                </td>
+
+
+
+            </tr>
+
+
+            </tbody>
+        </table>
+    <div class="col-12" style="position: absolute;bottom: 5%;left: 50%;transform: translateX(-50%)">
+        <h5 style="text-align: right">مهر و امضای پزشک :...........</h5>
+    </div>
+
+</div>
+

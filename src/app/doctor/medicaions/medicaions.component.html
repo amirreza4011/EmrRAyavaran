@@ -1,0 +1,58 @@
+<style>
+    ul{
+        list-style: none;
+
+
+    }
+    li{
+        margin-right: 10px;
+    }
+    ul:first-child li {
+        margin: 0;
+    }
+        .orangeBtn{
+        color: white!important;
+        background-color:#f2911b!important;
+        padding-top:2px!important;
+        padding-bottom: 2px!important;
+
+    }
+    .headerStyle{
+        background-color: #00417a;
+        padding: 6px;
+        text-align: center
+
+    }
+    .titleStle{
+        color: white;height: 4px
+    }
+</style>
+
+<div class="border" style="direction: ltr;">
+    <div class="col-12 mt-1 headerStyle" style="text-align: right;padding: 11px">
+        <h5  style="font-weight: 400;" class="titleStle"  > داروهای مزمن بیمار</h5>
+    </div>
+    <div style="display: flex ;flex-wrap: wrap ">
+        <div *ngIf="result"  class="col-12" style="font-size: 17px; border-color: black;display: flex;padding:0;flex-wrap: wrap ">
+            <div *ngFor="let item of mozmenlist" class="col-8" style="padding: 0!important;margin: 4px">
+                <ul  class="d-flex  mt-2 border " style="padding: 0!important;"  >
+                    <li style="margin-right: 5px;">{{item['res']['drugname']}} </li>
+                    <li>|</li>
+                    <li style="margin-right: 5px;">{{item['res']['Frequency']}}</li>
+                    <li>|</li>
+                    <li  >
+                        <svg (click)="deletmozmen(item['id'])" xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="color: #f2911b;cursor: pointer " fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                            <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                        </svg>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+</div>

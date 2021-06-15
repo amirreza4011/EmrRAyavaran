@@ -1,0 +1,183 @@
+<style>
+    .table th, .table td{
+        padding: 0 !important;
+        font-weight: bold;
+        width: auto;
+        max-width: 169px;
+
+    }
+    table{
+
+        border-top: none;
+    }
+    .table tr:first-child {
+        border-top: 3px solid black;
+    }
+    .tbl2 tr:first-child {
+        border-top: 3px solid black;
+    }
+    #loading{
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        z-index: 1;
+        width: 150px;
+        height: 150px;
+        margin: -75px 0 0 -75px;
+        border: 16px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 16px solid #3498db;
+        width: 220px;
+        height: 220px;
+        animation: spin 2s linear infinite;
+    }
+    .posAb{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+    }
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+</style>
+<div style="position: relative">
+    <div *ngIf="loding==true" class="justify-content-center posAb  " style="margin-top: calc(100vh/2);text-align: center">
+        <img src="assets/img/loading/Fading%20lines.gif" />
+        <br>
+        <br>
+        <h6 style="text-align: left">لطفا منتظر بمانید ...</h6>
+    </div>
+</div>
+
+
+
+
+<div *ngIf="loding==false" class="container " id="print-section" style="direction: rtl !important;" >
+    <app-information></app-information>
+
+    <div class=" mt-2" >
+
+        <div  *ngFor="let i of hero['laboratory_Requests'] ,let iy =index " >
+            <div class="row" >
+                <div class="col-12 text-bold-600 " style="font-size: 20px;text-align: center" >
+                    {{i.orderTemplateName}}
+
+
+                </div>
+                <div class="col-12 text-bold-600 " style="font-size: 20px;text-align: left" >
+
+
+                    {{i['laboratory_Tests']['masterService_Name'] }}
+
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 col-sm-11 ">
+
+                    <table class="table tbl2"  >
+                        <thead>
+
+                        <tr style="border-top-color: transparent;" *ngIf="i['laboratory_Tests'][0]['masterService_NationalCode']=='800200'" >
+                            <th scope="col" style="border-bottom: 3px solid black; text-align: center">  </th>
+                            <th scope="col" style="border-bottom: 3px solid black; text-align: center" >  Result</th>
+                            <th scope="col" style="border-bottom: 3px solid black; text-align: left"  >Micro</th>
+
+
+                        </tr>
+                        <tr style="border-top-color: transparent;" *ngIf="i['laboratory_Tests'][0]['masterService_NationalCode']=='802000'" >
+                            <th scope="col" style="border-bottom: 3px solid black; text-align: center">  </th>
+                            <th scope="col" style="border-bottom: 3px solid black; text-align: center" >  Result</th>
+
+                            <th scope="col" style="border-bottom: 3px solid black; text-align: left"  >Diff</th>
+
+                        </tr>
+
+                        </thead>
+                        <tbody *ngFor="let i of i['laboratory_Tests']">
+                        <tr *ngFor="let i1 of i['laboratory_Results']" >
+
+                            <td *ngIf="i1.isParalell==='1'" style="text-align: left" >{{i1.unit}}</td>
+
+                            <td *ngIf="i1.isParalell==='1'" style="text-align: center" >{{i1.testValue}}</td>
+                            <th *ngIf="i1.isParalell==='1' " style="text-align: left" scope="row">{{i1.testName}}</th>
+
+
+
+
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-9 col-sm-9" >
+                    <table class="table " >
+                        <thead>
+
+                        <tr style="border-top-color: transparent">
+                            <th scope="col" style="border-bottom: 1px solid black;text-align: center">References Value </th>
+                            <th scope="col" style="border-bottom: 1px solid black;text-align: center">Unit </th>
+                            <th scope="col" style="border-bottom: 1px solid black;text-align: center">Result</th>
+                            <th scope="col" style="border-bottom: 1px solid black;text-align: left" >Test
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody *ngFor="let i of i['laboratory_Tests']">
+
+
+
+
+                                <tr *ngFor="let h of i['laboratory_Results']">
+
+                            <th *ngIf="h.isParalell==='0'  "style="text-align: center"  scope="row">{{h.rangeCaption}}</th>
+                            <td *ngIf="h.isParalell==='0'" style="text-align: center">{{h.unit}}</td>
+                            <td *ngIf="h.isParalell==='0'"  style="text-align: center">{{h.testValue}}</td>
+                            <td *ngIf="h.isParalell==='0'" style="text-align: left" >{{h.testName}}</td>
+                                </tr>
+
+
+
+
+
+
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="row">
+            <div class="col-12 text-bold-600" style="text-align: right;color: red;">
+                <h5>
+                    این جواب بدون مهر و امضای پزشک فاقد اعتبار است .
+                </h5>
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+</div>
+<div *ngIf="loding==false"  class="container">
+    <div class="row">
+
+
+
+        <button class="btn btn-outline-primary"    printSectionId="print-section"  [useExistingCss]="true"  [printStyle]= "{div: {'direction' : 'rtl'},table:{'direction':'rtl'}}"  printTitle="MyTitle " ngxPrint >
+
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-printer ml-2" viewBox="0 0 16 16" >
+                <path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z"/>
+                <path d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2H5zM4 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2H4V3zm1 5a2 2 0 0 0-2 2v1H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v-1a2 2 0 0 0-2-2H5zm7 2v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1z"/>
+            </svg>
+
+
+            چاپ همه</button>
+    </div>
+</div>
+
+

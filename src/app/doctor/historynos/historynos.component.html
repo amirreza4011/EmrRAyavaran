@@ -1,0 +1,92 @@
+<style>
+    .gh:hover {
+        background-color: #0B486B;
+        color: white;
+
+    }
+</style>
+<br>
+<div class="container-fluid">
+    <div *ngIf="listhistory" class="row">
+        <div class="col-lg-6 col-sm-12 col-md-12" style="max-height: 600px;overflow-y: scroll;overflow-x: hidden">
+            <table class="table table-bordered table-hover" style="width: 100%;text-align: center">
+                <tr style="
+    background-color: #00417a;
+    color: white;">
+                    <th>
+                        #
+                    </th>
+                    <th>
+                        تاریخ نسخه
+                    </th>
+                    <th>
+                        نام پزشک
+                    </th>
+                    <th>
+                        تخصص پزشک
+                    </th>
+                    <th>
+                        مشاهده
+                    </th>
+                </tr>
+                <tr class="gh" *ngFor="let item of listhistory,let i=index">
+                    <td>
+                        {{i+1}}
+                    </td>
+                    <td>
+                        {{item['dateof_Persian']}}
+                    </td>
+                    <td>
+                        {{item['practitioner_FirstName']+' '+item['practitioner_LastName']}}
+                    </td>
+                    <td>
+                        {{item['practitioner_Speciality']}}
+                    </td>
+                    <td>
+                         <i (click)="detail(item['prescriptionID'])" title="مشاهده ریز نسخه" style="cursor: pointer;font-size: 20px" class="ft ft-list"></i>
+                    </td>
+                </tr>
+
+            </table>
+        </div>
+        <div class="col-lg-6 col-sm-12 col-md-12">
+            <table class="table table-bordered table-hover" style="width: 100%;text-align: center">
+                <tr style="
+    background-color: #00417a;
+    color: white;">
+                    <th>
+                        #
+                    </th>
+                    <th>
+                        نام دارو
+                    </th>
+                    <th>
+                        نحوه مصرف
+                    </th>
+                    <th>
+                        دستور
+                    </th>
+
+                </tr>
+                <tr *ngFor="let item of listhistoryitem,let i=index">
+                    <td>
+                        {{i+1}}
+                    </td>
+                    <td>
+                        {{item['salableName']}}
+                    </td>
+                    <td>
+                        {{item['frequency']}}
+                    </td>
+                    <td>
+                        {{item['routeUsage']}}
+                    </td>
+
+                </tr>
+
+            </table>
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,89 @@
+<style>
+    .d{
+        padding: 5px;
+        /* margin: 1px; */
+        padding-top: 3p;
+        font-size: 13px;
+        cursor: pointer;
+        color: greenyellow;
+        background-color: red;
+    }
+    .boxcoustom{
+        background-color: #f5f7fa;
+        text-align: right;
+        padding: 0;
+        height: auto;
+        border: 2px solid;
+    }
+    .box_moz{
+        border: 1px solid;
+        padding: 8px;
+        display: flex;
+        flex-wrap: wrap;
+        margin: 2px;
+        text-align: left;
+        direction: ltr;
+    }
+</style>
+<app-patient-info  [visibility]="false"></app-patient-info>
+<div class="container-fluid" style="margin-top: 5px">
+    <div class="row">
+        <div class="col-lg-6 col-sm-12 col-md-12 boxcoustom" >
+            <div class="col-lg-12 col-sm-12 col-md-12" style="background-color: #00417a;color: white">
+                خلاصه وضعیت بیمار
+            </div>
+        </div>
+        <div class="col-lg-6 col-sm-12 col-md-12 boxcoustom" >
+              <div class="col-lg-12 col-sm-12 col-md-12" style="background-color: #00417a;color: white">
+                  داروهای مزمن بیمار
+              </div>
+
+              <div *ngIf="mozmenlist" class="col-12" >
+                  <div *ngFor="let item of mozmenlist" class="col-12 box_moz" style="padding: 8px;display: flex;flex-wrap: wrap;border-left: 8px solid red"  >
+                      <div class="col-7">
+                          {{item['res']['drugname']}} &nbsp;|
+                      </div>
+                      <div class="col-4">
+                          {{item['res']['doseText']}} &nbsp;/ {{item['res']['Frequency']}}
+                      </div>
+                      <div class="col-1">
+                         <i class="ft ft-trash" style="color: red;font-size: 20px;cursor: pointer" (click)="delet_mozmen(item['id'])"></i>
+                      </div>
+
+
+                  </div>
+              </div>
+            <div *ngIf="mozmenlist.length<1" class="col-12" >
+                <div  class="col-12 " style="padding: 8px;text-align: center;color: red"  >
+
+                   <i class="ft fa-thermometer-empty"></i>  داروی مزمنی برای نمایش وجود ندارد
+
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+
+    <div *ngIf="issalamat" style="text-align: right;" class="row">
+        <div style="height: 30px;text-align: right;background-color: #0B486B;color: white" class="col-12">
+            اطلاعات دریافتی  از سازمانهای بیمه گر    <i (click)="salamat_in()" class="ft-refresh-ccw d">
+
+        </i>
+        </div>
+        <div style="height: auto;text-align: right;" class="col-12">
+            <span *ngIf="salamaterror" style="background-color: red;color: white">
+                  {{salamaterror['resMessage'] }}
+            </span>
+            <span *ngIf="resMessage4mth" style="background-color: green;color: white">
+                     {{resMessage4mth}}
+            </span>
+
+
+        </div>
+
+    </div>
+</div>
+
+
