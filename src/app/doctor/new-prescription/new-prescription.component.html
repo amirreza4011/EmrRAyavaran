@@ -1,4 +1,7 @@
 <style>
+    .active{
+        background-color: #10E8F3;
+    }
     .mess{
         margin: 0 auto;
         background-color: #0d47a1;
@@ -159,7 +162,7 @@
 
                     <div class="col-10 d-flex ">
                         <div  class="example-full-width col-11  mt-3">
-                            <input    autofocus [readonly]="editrecord?true:false" formControlName="drugname" autocomplete="off" placeholder="...نام دارو" name="drugName" type="text"  class="form-control" style="text-align: left"  matInput (input)="onSearchChange($event)" value="{{editrecord?editrecord['drugname']:value}}" [(ngModel)]="editrecord?editrecord['drugname']:value" id="namedrug"/>
+                            <input    autofocus [readonly]="editrecord?true:false" formControlName="drugname" autocomplete="off" placeholder="...نام دارو" name="drugName" type="text"  class="form-control" style="text-align: left" (keydown)="save($event)"  matInput (input)="onSearchChange($event)" value="{{editrecord?editrecord['drugname']:value}}" [(ngModel)]="editrecord?editrecord['drugname']:value" id="namedrug"/>
                             <input hidden [(ngModel)]="editrecord?editrecord['drugid']:drugid"  value="{{editrecord?editrecord['drugid']:drugid}}" formControlName="drugid" />
                             <input hidden [(ngModel)]="generic"  value="{{generic}}" formControlName="generic_Code" />
                             <input hidden [(ngModel)]="erX_Code"  value="{{erX_Code}}" formControlName="erX_Code" />
@@ -168,16 +171,16 @@
                             margin-left: 95%;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
                                 <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
                             </svg>
-                            <ul class="form-control" style="border:none; text-align: left;height: 300px;overflow-x:hidden;overflow-y: scroll ;list-style: none;position: absolute;z-index: 30;padding: 0;margin-top: -26px;transition: all 0.4s;background-color: white;border: 2px solid;
+                            <ul id="ul" class="form-control" style="border:none; text-align: left;height: 300px;overflow-x:hidden;overflow-y: scroll ;list-style: none;position: absolute;z-index: 30;padding: 0;margin-top: -26px;transition: all 0.4s;background-color: white;border: 2px solid;
 " *ngIf="serchlist.length >0" >
-                                <li style="background-color: white;border-bottom: 1px solid;" >
+                                <li style="background-color: white;border-bottom: 1px solid;"  >
                                     <table class="table table-bordered">
                                         <tr class="trserch">
                                             <th>#</th>
                                             <th>نام دارو</th>
                                             <th>وضعیت</th>
                                         </tr>
-                                        <tr (click)="set(i)" *ngFor="let i of serchlist,let p=index">
+                                        <tr [class.active]="p==arrowkeyLocation" (click)="set(i)" *ngFor="let i of serchlist,let p=index">
                                             <td>{{p+1}}</td>
                                             <td>
                                                 <button *ngIf="i.qty==0 "  disabled style="border: none;background-color:transparent;font-size: 14px;text-align: left;"  class="w-100" > {{i.name}}</button>
@@ -220,7 +223,7 @@
                         <div class="col-2  mt-2">
                             <label for="" class="mt-1 mr-1" >Dose: </label>
                             <div class="d-flex">
-                                <input autocomplete="off" value="{{editrecord?editrecord['dosetxt']:''}}"  formControlName="Dosetext" type="number" placeholder="unit"  class="form-control" name="doseText">
+                                <input autocomplete="off" value="{{editrecord?editrecord['dosetxt']:''}}"  formControlName="Dosetext" min="1" type="number" placeholder="unit"  class="form-control" name="doseText">
                                 <select formControlName="Doseselect" #Dose class="form-control" (change)='getDose(Dose.value)' name="unit" id="fbf">
                                     <option [ngValue]="null" selected disabled>{{editrecord?editrecord['dosesel']:''}}</option>
                                     <option value="mg">mg </option>
@@ -251,7 +254,7 @@
                         <div class="col-2  mt-2">
                             <label for="name" class="mt-1 mr-1">T.No: </label>
                             <div *ngIf="paclist"  class="d-flex">
-                                <input autocomplete="off" value="{{editrecord?editrecord['TNOtext']:''}}"  type="number" formControlName="TNOtext"  placeholder="unit" class="form-control">
+                                <input min="1" autocomplete="off" value="{{editrecord?editrecord['TNOtext']:''}}"  type="number" formControlName="TNOtext"  placeholder="unit" class="form-control">
                                 <select formControlName="TNOselect" #Dispense class="form-control" (change)="getDispense(Dispense.value)" name="unit" id="rf">
                                     <option [ngValue]="null" selected disabled>{{editrecord?editrecord['Tnomberid']:''}}</option>
                                     <option *ngFor="let i of paclist['items']" value="{{i.id+'-'+i.name}}">{{i.name}} </option>
@@ -284,15 +287,15 @@
                     <div class="row" style="padding-left:29px"  *ngIf="show!='none'" >
                         <div class="col-2 mt-1 ">
                             <label for="name" class="mt-1 mr-1">Route: </label>
-                            <div class="d-flex width-200" >
-                                <select *ngIf="listroute" formControlName="Route" #route1 class="form-control " (change)="getRoute(route1.value)"  name="unit" id="d" >
+                            <div class="d-flex width-200" id="ROute" >
+                                <select *ngIf="listroute" style="margin-top: 6px" formControlName="Route" #route1 class="form-control " (change)="getRoute(route1.value)"  name="unit" id="d" >
                                     <option [ngValue]="null" selected disabled>{{editrecord?editrecord['route']:''}}</option>
                                     <option *ngFor="let i of listroute['items']" value="{{i.id+'-'+i.displayName}}">{{i.displayName}} </option>
                                 </select>
                             </div>
 
                         </div>
-                        <div class="col-2  mt-2">
+                        <div class="col-lg-2    mt-2">
                             <label for="name" class="mt-1 mr-1">Dose qualifier: </label>
                             <div class="d-flex">
                                 <select formControlName="qualifier" #qualifier class="form-control" (change)="getQualifier(qualifier.value)" name="unit" id="e">
@@ -340,7 +343,7 @@
                         <div class="col-2  mt-2">
                             <label for="name" class="mt-1 mr-1">Duration: </label>
                             <div class="d-flex">
-                                <input autocomplete="off" value="{{editrecord?editrecord['Durationname']:''}}"  formControlName="Durationtext" type="number" name="DurationText" placeholder="unit"  class="form-control">
+                                <input min="1" autocomplete="off" value="{{editrecord?editrecord['Durationname']:''}}"  formControlName="Durationtext" type="number" name="DurationText" placeholder="unit"  class="form-control">
                                 <select formControlName="Durationselect" #Duration class="form-control" (change)="getDuration(Duration.value)" name="unit" id="jh">
                                     <option [ngValue]="null" selected disabled>{{editrecord?editrecord['Durationsel']:''}}</option>
                                     <option value="روز">روز </option>

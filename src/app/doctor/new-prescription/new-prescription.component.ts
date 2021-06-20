@@ -109,7 +109,11 @@ export class NewPrescriptionComponent implements OnInit {
     messag: any;
     typemodal: number;
     issalamat: boolean;
-  constructor(
+    arrowkeyLocation=0;
+    index:number;
+
+
+    constructor(
       private router: Router,
       private route: ActivatedRoute,
       private  _service: PrescriptionServicesService,
@@ -154,8 +158,35 @@ export class NewPrescriptionComponent implements OnInit {
       this.paclist = p;
     });
   }
+    save(event) {
+        switch (event.keyCode) {
+            case 13:
 
-  ngOnInit() {
+                // this.searchText=event.target.value;
+
+
+
+
+
+                break;
+            case 38:
+                if (this.arrowkeyLocation <1 ) {
+                    this.arrowkeyLocation = 1
+                }
+                this.index = this.arrowkeyLocation-- - 2
+                document.getElementById('ul').scrollBy(-40, -40);
+                break
+            case 40:
+                this.index = this.arrowkeyLocation++;
+                document.getElementById('ul').scrollBy(40, 40);
+                break
+        }
+
+
+    }
+
+
+    ngOnInit() {
 
       this.cheklist = [];
       this.typemodal = 1;

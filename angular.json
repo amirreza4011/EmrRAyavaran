@@ -35,7 +35,8 @@
               "node_modules/@swimlane/ngx-datatable/release/assets/icons.css",
               "src/assets/css/demo.css",
               "src/assets/sass/app.scss",
-              "src/styles.css"
+              "src/styles.css",
+              "src/assets/css/customResponsive.css"
             ],
             "scripts": [
               "src/assets/vendor/pace/pace.min.js"
@@ -106,7 +107,9 @@
               "node_modules/@swimlane/ngx-datatable/release/assets/icons.css",
               "src/assets/css/demo.css",
               "src/assets/sass/app.scss",
-              "src/styles.css"
+              "src/styles.css",
+              "src/assets/css/customResponsive.css"
+
             ],
             "assets": [
               "src/assets",

@@ -1,7 +1,12 @@
 <style>
 
 
+    @media screen and (min-width: 1200px)  {
+        div{
+            background-color: #0d47a1!important;
+        }
 
+    }
     .headerStyle{
         background-color: #0d47a1;
         padding: 6px;
@@ -20,6 +25,7 @@
         background-color: #bbe4fc;
         line-height: 12px
     }
+
 </style>
 
 
@@ -31,7 +37,7 @@
     </div>
     <form action="" (ngSubmit)="postDate($event)">
         <div class="col-12 d-flex">
-            <div class="col-6">
+            <div class="col-6 ">
                 <div class="col-12 mt-1" style="text-align: right!important;">
 
                     <label for="" class="ml-2">از تاریخ </label>
@@ -65,7 +71,7 @@
             </div>
             <div class="col-6 mt-2" style="text-align: right!important;" >
 
-                <div class="col-12  d-flex">
+                <div class="col-12   d-flex">
                     <label for="" class="ml-1 "  > وضعیت</label>
                     <select name="chekvi" class="form-control" id="">
                         <option value="0"> Not visited </option>

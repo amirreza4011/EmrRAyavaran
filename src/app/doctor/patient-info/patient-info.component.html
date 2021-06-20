@@ -40,14 +40,14 @@
     <div style="display: flex " >
 
         <div class="col-lg-12 col-sm-12 col-md-12  " style="font-size: 17px; border-color: black;display: flex;padding:0; ">
-            <div  class="col-lg-5 col-sm-12 col-md-12" style="border: 1px solid black;padding: 0">
+            <div  class="col-lg-4 col-sm-12 col-md-12" style="border: 1px solid black;padding: 0">
                 <div class="col-lg-12 col-sm-12 col-md-12  headerStyle" style="text-align: right;padding: 11px">
                     <h5  style="font-weight: 400;" class="titleStle"  >  انتخاب داروخانه  </h5>
                 </div>
                 <div class="form-group col-12" >
                     <ul class="d-flex  " style="margin-top: 4px;" >
                         <li *ngIf="list">
-                            <select  #mySelect class="form-control"  (change)='getID(mySelect.value)' style="width: 300px" name="id">
+                            <select  #mySelect id="mySelect" class="form-control"  (change)='getID(mySelect.value)' style="width: 300px" name="id">
                                 <option value="">{{defultdrugstore}}</option>
 <!--                                <option *ngFor="let i of list"  [value]="i.id" >{{i.name}}</option>-->
                             </select>
@@ -60,7 +60,7 @@
                 <button class="btn  mt-2 text-bold-700  "  style="padding:3px!important;height:40px;color: white!important;
                 background-color:#f2911b!important; font-size: 18px;text-align: right"  (click)="newPres()" >ثبت نسخه جدید بیمار</button>
             </div>
-            <div class="col-lg-5 col-sm-12 col-md-12" style="text-align: right;font-weight: 700;border: 1px solid ;padding: 0 " >
+            <div class="col-lg-4 col-sm-12 col-md-12" style="text-align: right;font-weight: 700;border: 1px solid ;padding: 0 " >
                 <div class="col-lg-12 col-sm-12 col-md-12  headerStyle" style="text-align: right;padding: 11px">
                     <h5  style="font-weight: 400;" class="titleStle"  > مشخصات بیمار</h5>
                 </div>
